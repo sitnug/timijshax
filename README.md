@@ -9,7 +9,7 @@
 
 A comprehensive Roblox utility suite for Rogue Lineage and Rogue Lineage Battlegrounds. ~41,000 lines of Lua across two game modules.
 
-**Website:** [hydroxide.solutions](https://hydroxide.solutions) | **Discord:** [discord.gg/fnpNyCsG4u](https://discord.gg/fnpNyCsG4u)
+**Website:** [hydroxide.solutions](https://hydroxide.solutions) | **Discord:** [discord.gg/fnpNyCsG4u](https://discord.gg/fnpNyCsG4u) | **Media:** [youtube channel](https://www.youtube.com/@walmartfan96/videos)
 
 **This project is open source and maintained on a casual basis. Updates may come from time to time. Issues and pull requests are welcome.**
 
