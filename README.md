@@ -37,8 +37,6 @@ pcall(function()
 end)
 ```
 
-`_G.Cookie` is optional. Set it to your own `.ROBLOSECURITY` token (the value only, without the `.ROBLOSECURITY=` prefix) and the script will use it for authenticated Roblox API requests. Leave it unset to use the default.
-
 ### Stella Data Collection
 
 ```lua
