@@ -22,13 +22,18 @@ used to be https://github.com/heisenburgah/HYDROXIDE but my account got suspende
 ## Usage
 
 ```lua
-_G.Cookie = "" -- optional: your own .ROBLOSECURITY token for Roblox API requests
-
 pcall(function()
-    loadstring(game:HttpGet(
-        "https://git.fable.bz/zyu/hydroxide/raw/branch/main/loader.lua",
-        true
-    ))()
+    getgenv().hydroxide_repo   = "zyu/hydroxide"
+    getgenv().hydroxide_branch = "main"
+
+    local url = "https://git.fable.bz/"
+        .. getgenv().hydroxide_repo
+        .. "/raw/branch/"
+        .. getgenv().hydroxide_branch
+        .. "/ROGUE/rogue_ui.lua"
+        .. "?nonce=" .. tostring(math.random())
+
+    loadstring(game:HttpGet(url, true))()
 end)
 ```
 
