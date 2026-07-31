@@ -2,7 +2,18 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local DEFAULT_REPO = getgenv().hydroxide_repo or "zyu/hydroxide"
+local DEFAULT_RAW = getgenv().hydroxide_raw or "https://git.fable.bz/zyu/hydroxide/raw/branch/main/"
+local loader_script = string.format([[
+if not game:IsLoaded() then game.Loaded:Wait() end
+task.wait(1)
+getgenv().hydroxide_raw = "%s"
+local s,code=pcall(function() return game:HttpGet("%sloader.lua?nonce="..tostring(math.random())) end)
+if not s then
+    print("[QUEUE ERROR] HttpGet failed:",code)
+    return
+end
+local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Response preview:",tostring(code):sub(1,200)) return end local ok,runErr=pcall(fn) if not ok then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end
+]], DEFAULT_RAW, DEFAULT_RAW)
 
 local cloneref = cloneref or function(v) return v end
 local Services = setmetatable({}, {
@@ -3128,9 +3139,8 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
         end
     end
     
-    local repo = "https://git.fable.bz/".. DEFAULT_REPO .."/raw/branch/main/"
     local success, library_func = pcall(function()
-        return loadstring(game:HttpGet(repo .. "DEPENDENCIES/Library.lua", true))()
+        return loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/Library.lua", true))()
     end)
 
     if success then
@@ -3141,8 +3151,8 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
         getgenv().Options = library.Options or {}
         getgenv().Labels = library.Labels or {}
 
-        local SaveManager = loadstring(game:HttpGet(repo .. "DEPENDENCIES/SaveManager.lua?nonce="..tostring(math.random())) )()
-        local ThemeManager = loadstring(game:HttpGet(repo .. "DEPENDENCIES/ThemeManager.lua?nonce="..tostring(math.random()) ))()
+        local SaveManager = loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/SaveManager.lua?nonce="..tostring(math.random())) )()
+        local ThemeManager = loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/ThemeManager.lua?nonce="..tostring(math.random()) ))()
 
         SaveManager:SetLibrary(library)
         ThemeManager:SetLibrary(library)
@@ -6935,25 +6945,13 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
                         if not shared.on_teleport_setup then
                             shared.on_teleport_setup = true
-                            shared.on_teleport_connection = plr.OnTeleport:Connect(function(State)
+                            shared.on_teleport_connection = plr.OnTeleport:Connect(function(State) --doesnt work properly me thinks
                                 if teleport_debounce then return end
                                 teleport_debounce = true
 
                                 local queue_func = queueteleport or queue_on_teleport
                                 if queue_func then
-                                    local success, err = pcall(function()
-                                        local loader_script = game
-										loader_script = string.format([[
-                                        if not game:IsLoaded() then game.Loaded:Wait() end
-                                        task.wait(1)
-                                        getgenv().hydroxide_repo = "%s"
-                                        local s,code=pcall(function() return game:HttpGet("https://git.fable.bz/%s/raw/branch/main/loader.lua?nonce="..tostring(math.random())) end)
-                                        if not s then
-                                            print("[QUEUE ERROR] HttpGet failed:",code)
-                                            return
-                                        end
-                                        local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Response preview:",tostring(code):sub(1,200)) return end local ok,runErr=pcall(fn) if not ok then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end
-                                        ]], DEFAULT_REPO, DEFAULT_REPO)
+                                    local success, err = pcall(function()										
                                         queue_func(loader_script)
                                     end)
 
@@ -13299,21 +13297,11 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         local queue_func = queueteleport or queue_on_teleport
                         if queue_func then
                             local success, err = pcall(function()
-                                local loader_script
+                                local load = loader_script
                                 if readfile and isfile and isfile("bazaar_loader.lua") then
-                                    loader_script = [[local code=readfile("bazaar_loader.lua") local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Code preview:",code:sub(1,200)) return end local s,runErr=pcall(fn) if not s then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end]]
-                                else
-                                    loader_script = string.format([[
-                                    if not game:IsLoaded() then game.Loaded:Wait() end
-                                    task.wait(1)
-                                    getgenv().hydroxide_repo = "%s"
-                                    local s,code=pcall(function()
-                                        return game:HttpGet("https://git.fable.bz/%s/raw/branch/main/loader.lua?nonce="..tostring(math.random()))
-                                    end)
-                                    if not s then print("[QUEUE ERROR] HttpGet failed:",code) return end local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Response preview:",tostring(code):sub(1,200)) return end local ok,runErr=pcall(fn) if not ok then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end
-                                    ]], DEFAULT_REPO, DEFAULT_REPO)
+                                    load = [[local code=readfile("bazaar_loader.lua") local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Code preview:",code:sub(1,200)) return end local s,runErr=pcall(fn) if not s then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end]]
                                 end
-                                queue_func(loader_script)
+                                queue_func(load)
                             end)
 
                             if not success then
@@ -19603,7 +19591,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                     Callback = function(state)
                         if state then
                             local success, result = pcall(function()
-                                local LoggerGui = loadstring(game:HttpGet(repo .. "DEPENDENCIES/Chatlogger.lua"))()
+                                local LoggerGui = loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/Chatlogger.lua"))()
                                 return LoggerGui.new(cheat_client, utility)
                             end)
 
@@ -27052,21 +27040,11 @@ end
                     local queue_func = queueteleport or queue_on_teleport
                     if queue_func then
                         local success, err = pcall(function()
-                            local loader_script
+                            local load = loader_script
                             if readfile and isfile and isfile("bazaar_loader.lua") then
-                                loader_script = [[local code=readfile("bazaar_loader.lua") local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Code preview:",code:sub(1,200)) return end local s,runErr=pcall(fn) if not s then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end]]
-                            else
-                                loader_script = string.format([[
-                                if not game:IsLoaded() then game.Loaded:Wait() end 
-                                task.wait(1)
-                                getgenv().hydroxide_repo = "%s"
-                                local s,code=pcall(function()
-                                    return game:HttpGet("https://git.fable.bz/%s/raw/branch/main/loader.lua?nonce="..tostring(math.random()))
-                                end)
-                                if not s then print("[QUEUE ERROR] HttpGet failed:",code) return end local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Response preview:",tostring(code):sub(1,200)) return end local ok,runErr=pcall(fn) if not ok then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end
-                                ]], DEFAULT_REPO, DEFAULT_REPO)
+                                load = [[local code=readfile("bazaar_loader.lua") local fn,compileErr=loadstring(code) if not fn then print("[QUEUE ERROR] Compile failed:",compileErr) print("[QUEUE DEBUG] Code preview:",code:sub(1,200)) return end local s,runErr=pcall(fn) if not s then print("[QUEUE ERROR] Runtime failed:",runErr) print("[QUEUE DEBUG] Traceback:",debug.traceback()) end]]
                             end
-                            queue_func(loader_script)
+                            queue_func(load)
                         end)
                     end
                 end
