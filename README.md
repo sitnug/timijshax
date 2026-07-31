@@ -13,6 +13,8 @@ A comprehensive Roblox utility suite for Rogue Lineage and Rogue Lineage Battleg
 
 **This project is open source and maintained on a casual basis. Updates may come from time to time. Issues and pull requests are welcome.**
 
+used to be https://github.com/heisenburgah/HYDROXIDE but my account got suspended Gg and Thank you GitHub!!!
+
 **Fair warning:** The codebase dates back to 2019 and is pretty sloppy. Single files with tens of thousands of lines, no modular structure, and inconsistent patterns throughout. A full rewrite was planned for 2025 but never happened. Hydroxide originally started as a passion project to test out a custom whitelist system — keys were sold for 1k silver at launch. The whitelist system may get a full public release in the future, so keep an eye on the [community server](https://discord.gg/fnpNyCsG4u). The code itself was never written to be maintainable or readable by anyone else. Good luck.
 
 ---
