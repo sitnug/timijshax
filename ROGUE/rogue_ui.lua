@@ -917,6 +917,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             8791234913,
             2260532477,
             677317511,
+            2812528388,
         },
         aimbot = {
             aimkey_translation = {
