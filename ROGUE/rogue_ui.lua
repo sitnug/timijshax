@@ -25273,6 +25273,9 @@ end
 
                 cheat_client.feature_connections.auto_trinket = utility:Connection(rs.Heartbeat, LPH_NO_VIRTUALIZE(function(delta_time)
                     if not plr.Character then return end
+                    if not cheat_client
+                        or not cheat_client.identify_trinket then return end
+                    if shared and shared.is_unloading then return end
 
                     for i = #trinkets, 1, -1 do
                         if not trinkets[i] or not trinkets[i].Parent then
