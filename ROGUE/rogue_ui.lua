@@ -24113,6 +24113,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                     if not backpack then return end
                     if detected_illusionists[player.UserId] then return end
 
+                    if shared and shared.is_unloading then return end
+                    if not utility or not utility.Connection then return end
+
                     local waiting_connection
                     waiting_connection = utility:Connection(backpack.ChildAdded, function(child)
                         if child.Name == "Observe" then
@@ -24182,6 +24185,8 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
                 utility:Connection(player.CharacterAdded, function(character)
                     task.wait(1)
+                    if not cheat_client or not cheat_client.detect_specs then return end
+                    if shared and shared.is_unloading then return end
                     task.spawn(cheat_client.detect_specs, cheat_client, player)
                 end)
             end)
