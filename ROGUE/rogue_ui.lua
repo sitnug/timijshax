@@ -918,6 +918,15 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             2260532477,
             677317511,
             2812528388,
+            
+            --https://www.roblox.com/communities/4895429/powonium-funds#!/about
+            1129791035,195989673,1078995119,16385717,111217516,1129801077,1091218954,1070438567,111220022,27964055,
+
+            --relation graph to moderators / hidden accounts (test)
+            1603601003,
+            1518270912,
+            4471765800,
+            725659608
         },
         aimbot = {
             aimkey_translation = {
