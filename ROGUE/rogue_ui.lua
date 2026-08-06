@@ -24514,7 +24514,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             local function get_inventory_value()
                 local inventory_value = 0
 
-                if not plr.Backpack then return 0 end
+                if not plr:FindFirstChild("Backpack") then return 0 end
                 local backpack_children = plr.Backpack:GetChildren()
 
                 for index = 1, #backpack_children do
