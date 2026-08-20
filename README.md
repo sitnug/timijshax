@@ -173,9 +173,11 @@ No personal or identifying information is collected.
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](LICENSE).
+This project is licensed under the [GNU Affero General Public License v3.0 or later](LICENSE) (`AGPL-3.0-or-later`).
 
-If you are distributing a custom version of Hydroxide or a mod with ported features of Hydroxide, you are required to disclose the source code, state changes, use a compatible license, and follow the license terms.
+If you distribute a modified version of Hydroxide, you must make the corresponding source code available under the terms of the AGPL and clearly state any changes you have made. The AGPL also requires modified versions made available for users to interact with over a network to provide those users access to the corresponding source code.
+
+See the [LICENSE](LICENSE) file for the full license terms.
 
 ---
 
