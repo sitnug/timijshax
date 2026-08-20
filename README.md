@@ -3,7 +3,7 @@
 ![](https://img.shields.io/github/downloads/heisenburgah/HYDROXIDE/total?style=flat-square)
 ![](https://img.shields.io/github/last-commit/heisenburgah/HYDROXIDE?style=flat-square)
 ![](https://img.shields.io/badge/lines%20of%20code-~41%2C000-blue?style=flat-square)
-![](https://img.shields.io/badge/license-GPL--3.0-blue?style=flat-square)
+![](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue?style=flat-square)
 ![](https://img.shields.io/discord/819956523479334933?style=flat-square&cacheSeconds=0)
 ![](https://hits.sh/github.com/heisenburgah/HYDROXIDE.svg?style=flat-square&label=views)
 
