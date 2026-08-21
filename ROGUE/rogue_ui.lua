@@ -814,6 +814,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             ["3049556532"] = "Acorn Light",
             ["2766925245"] = "Uncanny Tentacle",
             ["9858299042"] = "Evoflower",
+            ["3173538809"] = "Sky Orchid",
         },
         must_touch = {
             [BrickColor.new("Reddish brown").Number] = true,
@@ -7305,8 +7306,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         pcall(function()
                             if FindFirstChild(plr.PlayerGui.StartMenu, "Choices") and
                                FindFirstChild(plr.PlayerGui.StartMenu.Choices, "Play") then
-                                pcall(replicatesignal, plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click) --pcall in a pcall oh my hawdf
+                                
                                 firesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
+                                replicatesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
                             end
                         end)
 
@@ -17023,8 +17025,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         pcall(function()
                             if plr.PlayerGui.StartMenu:FindFirstChild("Choices") and
                                plr.PlayerGui.StartMenu.Choices:FindFirstChild("Play") then
-                                pcall(replicatesignal, plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
+                                
                                 firesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
+                                replicatesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
                             end
                         end)
 
