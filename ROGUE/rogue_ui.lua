@@ -27095,11 +27095,13 @@ end
                 task.wait(base + (math.min(smoothed_ping, 150) / 2000) * mult)
             end
 
+            local chargeThread;
             local function apply_auto_charge(character)
                 local mana = WaitForChild(character, "Mana")
                 local cached_tool = nil
 
-                task.spawn(function()
+                pcall(task.cancel, chargeThread)
+                chargeThread = task.spawn(function()
                     while shared and not shared.is_unloading do
                         if Toggles.SnapTrain and Toggles.SnapTrain.Value then
                             task.wait(0.01)
