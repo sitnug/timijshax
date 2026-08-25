@@ -930,7 +930,10 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             725659608,
             2557939582,
             1682396718,
-            1525197437
+            1525197437,
+
+
+            7486049096 --brittmarie poop
         },
         aimbot = {
             aimkey_translation = {
