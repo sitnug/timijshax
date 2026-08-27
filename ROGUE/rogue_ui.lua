@@ -814,6 +814,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             ["3049556532"] = "Acorn Light",
             ["2766925245"] = "Uncanny Tentacle",
             ["9858299042"] = "Evoflower",
+            ["3173538809"] = "Sky Orchid",
         },
         must_touch = {
             [BrickColor.new("Reddish brown").Number] = true,
@@ -920,7 +921,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             2812528388,
             
             --https://www.roblox.com/communities/4895429/powonium-funds#!/about
-            1129791035,195989673,1078995119,16385717,111217516,1129801077,1091218954,1070438567,111220022,27964055,
+            1129791035,195989673,1078995119,16385717,111217516,1129801077,1091218954,1070438567,111220022,27964055,1118492856,
 
             --relation graph to moderators / hidden accounts (test)
             1603601003,
@@ -929,7 +930,29 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             725659608,
             2557939582,
             1682396718,
-            1525197437
+            1525197437,
+
+
+            7486049096, --brittmarie poop
+
+            --chud son vs rogue lineage moderator son
+            3460406967,
+            1252415255,
+            1814796338,
+            2839783319,
+            1301579831,
+            1253825419,
+            66934974,
+            8647176491,
+            332950853,
+            7749742735,
+            1148151081,
+            2297159952,
+            2612252879,
+            41377282,
+            1916909354,
+            2359491684,
+            1280266337,111084238,1769697283 
         },
         aimbot = {
             aimkey_translation = {
@@ -7305,8 +7328,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         pcall(function()
                             if FindFirstChild(plr.PlayerGui.StartMenu, "Choices") and
                                FindFirstChild(plr.PlayerGui.StartMenu.Choices, "Play") then
-                                pcall(replicatesignal, plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click) --pcall in a pcall oh my hawdf
+                                
                                 firesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
+                                replicatesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
                             end
                         end)
 
@@ -17023,8 +17047,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         pcall(function()
                             if plr.PlayerGui.StartMenu:FindFirstChild("Choices") and
                                plr.PlayerGui.StartMenu.Choices:FindFirstChild("Play") then
-                                pcall(replicatesignal, plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
+                                
                                 firesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
+                                replicatesignal(plr.PlayerGui.StartMenu.Choices.Play.MouseButton1Click)
                             end
                         end)
 
@@ -27092,11 +27117,13 @@ end
                 task.wait(base + (math.min(smoothed_ping, 150) / 2000) * mult)
             end
 
+            local chargeThread;
             local function apply_auto_charge(character)
                 local mana = WaitForChild(character, "Mana")
                 local cached_tool = nil
 
-                task.spawn(function()
+                pcall(task.cancel, chargeThread)
+                chargeThread = task.spawn(function()
                     while shared and not shared.is_unloading do
                         if Toggles.SnapTrain and Toggles.SnapTrain.Value then
                             task.wait(0.01)
