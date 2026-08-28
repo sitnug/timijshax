@@ -233,7 +233,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
     end
 
     local cas  = Services.ContextActionService
-    local vim  = Services.VirtualInputManager
+    local vim  = cloneref(Instance.new("VirtualInputManager"))
     local mem  = Services.MemStorageService
     local rps  = Services.ReplicatedStorage
     local cs   = Services.CollectionService
