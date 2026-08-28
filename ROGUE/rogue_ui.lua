@@ -4815,6 +4815,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                     elseif (FindFirstChild(v, 'Mesh') and v.Mesh.MeshId == 'rbxassetid://%202877143560%20' and FindFirstChild(v, 'ParticleEmitter') and string.match(tostring(v.ParticleEmitter.Color), '0 1 1 1 0 1 1 1 1 0') and v.ClassName == 'Part' and v.Color.R > v.Color.G and v.Color.R > v.Color.B) then
                         return 'Ruby', cheat_client.trinket_colors.rare.Color, cheat_client.trinket_colors.rare.ZIndex
                     elseif (FindFirstChild(v, 'Mesh') and v.Mesh.MeshId == 'rbxassetid://%202877143560%20' and FindFirstChild(v, 'ParticleEmitter') and string.match(tostring(v.ParticleEmitter.Color), '0 1 1 1 0 1 1 1 1 0') and v.ClassName == 'Part' and v.Color.B > v.Color.G and v.Color.B > v.Color.R) then
+                        if v.Color == Color3.fromRGB(230,29,248) then
+                            return 'Rift Gem', cheat_client.trinket_colors.mythic.Color, cheat_client.trinket_colors.mythic.ZIndex
+                        end
                         return 'Sapphire', cheat_client.trinket_colors.rare.Color, cheat_client.trinket_colors.rare.ZIndex
                     elseif (v.ClassName == 'Part' and FindFirstChild(v, 'ParticleEmitter') and not string.match(tostring(v.ParticleEmitter.Color), '0 1 1 1 0 1 1 1 1 0')) then
                         return 'Rift Gem', cheat_client.trinket_colors.mythic.Color, cheat_client.trinket_colors.mythic.ZIndex
@@ -4860,6 +4863,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         elseif (v.ClassName == "MeshPart" and v.MeshId == "rbxassetid://%202877143560%20" and v.Color.R > v.Color.G and v.Color.R > v.Color.B) then
                             return 'Ruby', cheat_client.trinket_colors.rare.Color, cheat_client.trinket_colors.rare.ZIndex
                         elseif (v.ClassName == "MeshPart" and v.MeshId == "rbxassetid://%202877143560%20" and v.Color.B > v.Color.R and v.Color.B > v.Color.G) then
+                            if v.Color == Color3.fromRGB(230,29,248) then
+                                return 'Rift Gem', cheat_client.trinket_colors.mythic.Color, cheat_client.trinket_colors.mythic.ZIndex
+                            end
                             return 'Sapphire', cheat_client.trinket_colors.rare.Color, cheat_client.trinket_colors.rare.ZIndex
                         elseif (v.ClassName == "MeshPart" and v.MeshId == "rbxassetid://%202877143560%20" and tostring(v.Color) == '0.643137, 0.733333, 0.745098') then
                             return 'Diamond', cheat_client.trinket_colors.rare.Color, cheat_client.trinket_colors.rare.ZIndex
