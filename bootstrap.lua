@@ -1,0 +1,10 @@
+warn("[timijshax] Checking for updates")
+local http = game:GetService("HttpService")
+local ok, release = pcall(function()
+    return http:JSONDecode(game:HttpGet("https://api.github.com/repos/sitnug/timijshax/commits/main?nonce=" .. tostring(math.random()), true))
+end)
+assert(ok and type(release) == "table" and type(release.sha) == "string" and #release.sha == 40 and release.sha:match("^%x+$"), "[timijshax] Update check failed. GitHub may be unavailable or rate limited; retry later.")
+getgenv().timijshax_source = "https://raw.githubusercontent.com/sitnug/timijshax/" .. release.sha .. "/"
+local run, err = loadstring(game:HttpGet(getgenv().timijshax_source .. "loader.lua", true))
+assert(run, "[timijshax] Loader compile failed: " .. tostring(err))
+run()

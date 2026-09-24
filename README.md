@@ -12,16 +12,18 @@ Changes made on 2026-09-24: renamed the project and in-game window titles, moved
 Run this in your Roblox executor while in a supported game:
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main/loader.lua?nonce=" .. tostring(math.random()), true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main/bootstrap.lua?nonce=" .. tostring(math.random()), true))()
 ```
 
-The loader selects Rogue Lineage or Rogue Lineage Battlegrounds automatically.
+Save this script once and reuse it. Each execution resolves the latest main revision, then loads the loader and dependencies from that same revision. It replaces any old source pin. GitHub API availability and anonymous rate limits apply; a failed update check reports an error instead of silently loading an old version. The loader selects Rogue Lineage or Rogue Lineage Battlegrounds automatically.
 
 ## timijshax interface
 
 The Command Console uses a horizontal module dock, a full-width workspace, 24 original bundled icons, graphite panels, lime accents, and monospace typography. Narrow windows stack settings into one scrollable column. Select **timijshax Command** under **Profiles** if a saved theme overrides the palette.
 
-In Rogue Lineage, open **Intel → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
+In Rogue Lineage, open **Intel → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. Selected entries have an accent background and checkmark, with a selected-count summary. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
+
+Search accepts multiple words across module names, group names, setting labels, and dropdown choices. Empty groups disappear from results. Use the clear button or Escape to reset, and Ctrl+F to focus search. Explicitly hidden controls stay hidden.
 
 ## Startup audio and trinket spawn locations
 
@@ -47,7 +49,7 @@ Search for `spawn`, `trinket`, or `loot` and press Enter. Select a row to inspec
 
 ### Updating a running script
 
-Rejoin before executing a new release if timijshax is already loaded. A script pinned to an older recovery commit will keep loading that older layout; use the new release URL to receive the redesigned UI. The loader continues to print local startup diagnostics before network requests.
+Rejoin before executing a new release if timijshax is already loaded. Use the reusable script above to receive future updates without copying a new release URL. Updates take effect on the next execution, not while the script is already running. The loader continues to print local startup diagnostics before network requests.
 
 ## Games Supported
 

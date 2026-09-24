@@ -46,3 +46,6 @@
 
 !AGENTS.md
 !TESTS/theme_registry.py
+
+!bootstrap.lua
+!TESTS/search.py

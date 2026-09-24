@@ -58,3 +58,9 @@ The user confirmed recovery revision `c8aec531c20e88e857abf578edaeb9381d135ffe` 
 ### Redesigned UI explicitly restored (2026-09-24)
 
 After confirming the recovery baseline and restored features, the user asked for the redesigned UI too. Restore only its window/tab configuration and fixed shared library/theme; preserve the working loader, audio, ingredient filtering, spawn memory, and privacy changes. The UI factory must retain the reproduced-and-tested theme override fix. Do not describe the redesigned UI as in-game verified until the user confirms it.
+
+### Search visibility and reusable updates (2026-09-24)
+
+Search clearing previously restored controls regardless of explicit visibility and retained empty group shells. Preserve each control's `Visible` state, hide empty outer holders, and treat user search punctuation literally. Run `TESTS/search.py` with Luau for search changes, alongside the theme factory checks.
+
+A commit-pinned snippet cannot receive future releases. The reusable bootstrap resolves main to an exact revision on every execution and replaces old source pins. Keep loader and dependencies on that single revision; report update-check failures explicitly. Never place repository write credentials in distributed scripts. Local spawn memory remains private and automatic; shared uploads were declined.
