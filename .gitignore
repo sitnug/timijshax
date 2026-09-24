@@ -16,3 +16,7 @@
 # It was missing from this allowlist, which would have published a repo whose
 # advertised loader URL 404s.
 !loader.lua
+
+!ASSETS/
+!ASSETS/activated.mp3
+!DEPENDENCIES/SpawnMarkers.lua

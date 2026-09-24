@@ -21,6 +21,12 @@ The custom terminal styling uses charcoal panels, green accents, monospace type,
 
 In Rogue Lineage, open **Visuals → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
 
+## Startup audio and trinket spawn locations
+
+The loader announces “timijshax activated” using a bundled robotic voice. Playback requires executor support for local files and `getcustomasset` or `getsynasset`; audio failure does not block loading.
+
+In Rogue Lineage, **Visuals → Trinket Spawn Locations** can highlight known spawn locations even after pickup, independently of Trinket ESP. Observed positions are cached per place when file access is available. These positions are observations, not a complete verified spawn map. The optional **Spawn folder path** highlights all parts in a verified, client-visible spawn container, including empty ones. **Copy spawn candidates** copies possible paths for inspection; candidate names alone do not prove they are trinket spawns. Server-only or undiscovered positions cannot be shown without a map or client-visible spawn parts.
+
 ## Games Supported
 
 | Game | Script | Lines |
