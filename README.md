@@ -25,6 +25,19 @@ In Rogue Lineage, open **Intel → Ingredient ESP** to search and select ingredi
 
 Search accepts multiple words across module names, group names, setting labels, and dropdown choices. Empty groups disappear from results. Use the clear button or Escape to reset, and Ctrl+F to focus search. Explicitly hidden controls stay hidden.
 
+## Learned area routes (Rogue Lineage)
+
+Open **Routes → Learned Area Routes**. **Refresh learned areas** groups locations from live local spawn memory using the nearest replicated `Workspace.AreaMarkers` marker. These labels are estimates; the script does not know authoritative region boundaries. Explore first if no locations have been learned.
+
+1. Select an area. Without Gate, stand inside that area's nearest-marker region.
+2. Optionally enable **Gate before route**. After manually gating to a destination, select the corresponding area, enter the exact Gate destination, and click **Record Gate arrival here**. This maps that area to a known arrival position; it does not infer Gate names. Mappings save locally per place when file access is available.
+3. Click **Generate route preview**. The planner orders learned spots by distance and asks Roblox pathfinding for walking/jumping waypoints between them. Unreachable spots are skipped and counted. The preview replaces the custom bot's displayed waypoint list. Generation is limited to 100 spots and 2,000 waypoints per area.
+4. Choose **Run area once** or **Repeat area route**. Repeat waits for the selected delay and replans from the character's current position in the same server. **Stop area route** (or **Stop Bot**) cancels it.
+
+Gate requires the existing Gate tool and casting conditions. Its arrival must be within 50 studs of the recorded anchor; a 45-second timeout cancels stalled casts. After Gate, paths are recalculated from the actual arrival. Collection attempts nearby live trinket ClickDetectors only; empty learned spots do not stall the route. The runner stops on death, a changed character, or an eight-second movement timeout. It does not automatically reset, server-hop, or upload route data. Other enabled game automation can still interfere.
+
+Only client-visible map geometry can be planned. Streaming, terrain, hazards, and server movement corrections may prevent a generated route from working. Inspect the preview and try one run first. Local mock tests cover planning/control flow; actual Gate, navigation, and pickup still require in-game verification.
+
 ## Position debug and waypoint capture
 
 Open **Utilities → Position Debug** in either game. Enable the overlay to see live world X/Y/Z coordinates and PlaceId, including while the menu is hidden. **Copy current position** exports the current location. Give a waypoint a name, press **Capture waypoint** at each stop, then **Copy waypoint list** to share an ordered JSON route for preset creation. **Undo last waypoint** removes the last capture. Captures are session-only (maximum 200); copy them before leaving. Exports contain only PlaceId, coordinates, labels, and a format version. Nothing is uploaded automatically. Clipboard failures fall back to the F9 console, and missing characters show a waiting state during respawn.

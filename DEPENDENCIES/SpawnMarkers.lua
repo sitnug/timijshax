@@ -9,6 +9,7 @@ return function(library, utility, config, group, rawBase)
     local sourceFolder
     local createMemory = loadstring(game:HttpGet(rawBase .. "DEPENDENCIES/SpawnMemory.lua", true))()
     local memory = createMemory(http, {read = readfile, write = writefile}, game.PlaceId, game.JobId, os.time)
+    library.TimijshaxSpawnMemory = memory
     local container = Instance.new("Folder")
     container.Name = "TimijshaxSpawnMarkers"
     container.Parent = world
@@ -237,6 +238,7 @@ return function(library, utility, config, group, rawBase)
     save()
     library:OnUnload(function()
         stopped = true
+        if library.TimijshaxSpawnMemory == memory then library.TimijshaxSpawnMemory = nil end
         for _, connection in ipairs(connections) do connection:Disconnect() end
         save()
         container:Destroy()

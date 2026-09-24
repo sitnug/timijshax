@@ -52,3 +52,8 @@
 
 !DEPENDENCIES/PositionDebug.lua
 !TESTS/position_debug.luau
+
+!DEPENDENCIES/AreaRoutes.lua
+!DEPENDENCIES/AreaRoutePlanner.lua
+!TESTS/area_routes.luau
+**/timijshax-area-gates-*.json

@@ -13645,6 +13645,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             local droppedTools = {}
 
             local function ExecutePath(test_mode)
+                if trinket_bot.area_running then library:Notify("Stop the area route first."); return end
                 if not cheat_client or not cheat_client.config then
                     return
                 end
@@ -16346,6 +16347,41 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 end
             end
 
+            do
+                local group = Tabs.Botting:AddRightGroupbox("Learned Area Routes")
+                local ok, err = pcall(function()
+                    local setup = loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/AreaRoutes.lua", true))()
+                    trinket_bot.stop_area_route = setup(library, group, {
+                        busy = function() return trinket_bot.path_running or trinket_bot.area_running end,
+                        setBusy = function(value) trinket_bot.area_running = value end,
+                        gate = function(name, arrival)
+                            trinket_bot.path_running = true
+                            trinket_bot.moderator_detected = false
+                            emergency_gate_requested = nil
+                            return Gate(name, arrival)
+                        end,
+                        releaseGate = function()
+                            trinket_bot.path_running = false
+                            unblockInputs()
+                            pcall(function() utility:decharge_mana() end)
+                        end,
+                        preview = function(points)
+                            local converted = {}
+                            for _, point in ipairs(points) do
+                                table.insert(converted, {position=point.position, wait_for_trinket=false, wait_time=0})
+                            end
+                            trinket_bot.path_points = converted
+                            if Toggles.VisualizePoints then Toggles.VisualizePoints:SetValue(true) end
+                            update_visualizations()
+                        end,
+                    }, DEFAULT_RAW)
+                end)
+                if not ok then
+                    group:AddLabel("Area routes unavailable. See F9 console.", true)
+                    warn("[timijshax] Area routes:", err)
+                end
+            end
+
             local group_trinket_bot = Tabs.Botting:AddLeftGroupbox("Trinket Bot")
 
             group_trinket_bot:AddInput("PointWaitTime", {
@@ -17859,6 +17895,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 Text = "Stop Bot",
                 Tooltip = "Stop the currently running bot",
                 Func = function()
+                    if trinket_bot.area_running and trinket_bot.stop_area_route then trinket_bot.stop_area_route(); return end
                     if trinket_bot.path_running then
                         trinket_bot.path_running = false
                         mem:RemoveItem("botstarted")
