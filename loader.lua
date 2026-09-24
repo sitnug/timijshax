@@ -1,6 +1,6 @@
 if not game:IsLoaded() then game.Loaded:Wait() end
 local env = getgenv()
-local RELEASE_RAW = "https://raw.githubusercontent.com/sitnug/timijshax/8a36f5e8369d70d00af07d65fc455a8bc0910971/"
+local RELEASE_RAW = "https://raw.githubusercontent.com/sitnug/timijshax/cfa647e25d973629587f53b11dfaaf821e4667ad/"
 -- Refresh old official release pins; preserve an explicitly configured custom source.
 local custom = env.timijshax_source or env.hydroxide_raw
 if type(custom) ~= "string" or custom:find("https://raw.githubusercontent.com/sitnug/timijshax/", 1, true) == 1 then
