@@ -1,17 +1,20 @@
 -- timijshax: known trinket locations and explicitly selected spawn parts.
 -- Observed locations are not a complete map of undiscovered/server-only spawns.
-return function(library, utility, config, group)
+return function(library, utility, config, group, rawBase)
     local world = game:GetService("Workspace")
     local http = game:GetService("HttpService")
     local markers, connections = {}, {}
-    local enabled, stopped, dirty = false, false, false
+    local enabled, stopped = false, false
+    local observed = setmetatable({}, {__mode = "k"})
     local sourceFolder
-    local cachePath = "timijshax-spawns-" .. tostring(game.PlaceId) .. ".json"
+    local createMemory = loadstring(game:HttpGet(rawBase .. "DEPENDENCIES/SpawnMemory.lua", true))()
+    local memory = createMemory(http, {read = readfile, write = writefile}, game.PlaceId, game.JobId, os.time)
     local container = Instance.new("Folder")
     container.Name = "TimijshaxSpawnMarkers"
     container.Parent = world
     local status = group:AddLabel("Known locations: 0", true)
     local count = 0
+    local memoryStatus = group:AddLabel(memory.status, true)
 
     local function connect(signal, callback)
         local connection = signal:Connect(callback)
@@ -19,9 +22,16 @@ return function(library, utility, config, group)
         return connection
     end
 
-    local function remember(position, source)
+    local function remember(position, source, record)
         local key = string.format("%.0f,%.0f,%.0f", position.X, position.Y, position.Z)
-        if markers[key] or count >= 3000 then return end
+        if markers[key] then
+            if record then
+                markers[key].record = record
+                markers[key].text.Text = "[ SPAWN / " .. record.observations .. " OBS ]"
+            end
+            return
+        end
+        if count >= 3000 then return end
         local anchor = Instance.new("Part")
         anchor.Name = "SpawnMarker"
         anchor.Size = source and source.Size or Vector3.new(3, 0.25, 3)
@@ -53,42 +63,19 @@ return function(library, utility, config, group)
         text.TextSize = 12
         text.TextColor3 = box.Color3
         text.TextStrokeTransparency = 0.25
-        text.Text = source and "[ SPAWN PART ]" or "[ KNOWN SPAWN ]"
+        text.Text = source and "[ SPAWN PART ]" or record and "[ SPAWN / " .. record.observations .. " OBS ]" or "[ KNOWN SPAWN ]"
         text.Parent = label
-        markers[key] = {anchor = anchor, box = box, label = label, source = source}
+        markers[key] = {anchor = anchor, box = box, label = label, source = source, record = record, text = text}
         count = count + 1
-        dirty = true
         status:SetText("Known locations: " .. count)
     end
 
     local function save()
-        if not dirty or not writefile then return end
-        local points = {}
-        for _, marker in pairs(markers) do
-            if not marker.source then
-                local p = marker.anchor.Position
-                table.insert(points, {p.X, p.Y, p.Z})
-            end
-        end
-        local ok = pcall(function() writefile(cachePath, http:JSONEncode(points)) end)
-        if ok then dirty = false end
+        memory:Save()
+        memoryStatus:SetText(string.format("%d learned locations — %s", #memory.records, memory.status))
     end
-
-    if isfile and readfile then
-        pcall(function()
-            if not isfile(cachePath) then return end
-            local points = http:JSONDecode(readfile(cachePath))
-            if type(points) ~= "table" then return end
-            for _, p in ipairs(points) do
-                if type(p) == "table" and #p == 3 then
-                    local valid = true
-                    for _, n in ipairs(p) do
-                        if type(n) ~= "number" or n ~= n or math.abs(n) > 1000000 then valid = false end
-                    end
-                    if valid then remember(Vector3.new(p[1], p[2], p[3])) end
-                end
-            end
-        end)
+    for _, record in ipairs(memory.records) do
+        remember(Vector3.new(record.x, record.y, record.z), nil, record)
     end
 
     local function observe(object)
@@ -97,7 +84,13 @@ return function(library, utility, config, group)
         if object.Name == "ID" then part = object.Parent end
         if part and part:IsA("BasePart") and part.Parent == world
             and part.Name == "Part" and part:FindFirstChild("ID") then
-            remember(part.Position)
+            if not observed[part] then
+                observed[part] = true
+                local p = part.Position
+                local record = memory:Observe(p.X, p.Y, p.Z)
+                if record then remember(Vector3.new(record.x, record.y, record.z), nil, record) end
+                memoryStatus:SetText(string.format("%d learned locations — %s", #memory.records, memory.status))
+            end
         end
         if sourceFolder and object:IsA("BasePart") and object:IsDescendantOf(sourceFolder) then
             remember(object.Position, object)
@@ -112,7 +105,7 @@ return function(library, utility, config, group)
         sourceFolder = nil
         -- Changing the explicit source removes its old part markers only.
         for key, marker in pairs(markers) do
-            if marker.source then
+            if marker.source and not marker.record then
                 marker.anchor:Destroy()
                 markers[key] = nil
                 count = count - 1
@@ -156,6 +149,35 @@ return function(library, utility, config, group)
         Callback = function(value)
             config.trinket_spawn_folder = value
             setFolder(value)
+        end,
+    })
+    group:AddButton({
+        Text = "Open read-only Explorer",
+        Func = function()
+            local ok, err = pcall(function()
+                loadstring(game:HttpGet(rawBase .. "explorer.lua", true))()
+            end)
+            if not ok then library:Notify("Explorer unavailable: " .. tostring(err)) end
+        end,
+    })
+    group:AddButton({
+        Text = "Save memory now",
+        Func = save,
+    })
+    group:AddButton({
+        Text = "Copy memory summary",
+        Func = function()
+            local lines = {"timijshax learned spawn history, place " .. tostring(game.PlaceId)}
+            for _, record in ipairs(memory.records) do
+                table.insert(lines, string.format("(%.1f, %.1f, %.1f) | %d observations | %d server visits | first %s | last %s",
+                    record.x, record.y, record.z, record.observations, record.serverVisits,
+                    record.firstSeen > 0 and os.date("!%Y-%m-%d %H:%M UTC", record.firstSeen) or "unknown",
+                    record.lastSeen > 0 and os.date("!%Y-%m-%d %H:%M UTC", record.lastSeen) or "unknown"))
+            end
+            local report = table.concat(lines, "\n")
+            print(report)
+            if setclipboard then pcall(setclipboard, report) end
+            library:Notify("Memory summary printed" .. (setclipboard and " and copy attempted." or "."))
         end,
     })
     group:AddButton({
@@ -210,6 +232,9 @@ return function(library, utility, config, group)
             marker.label.Enabled = visible
         end
     end)
+    local player = game:GetService("Players").LocalPlayer
+    if player then connect(player.OnTeleport, save) end
+    save()
     library:OnUnload(function()
         stopped = true
         for _, connection in ipairs(connections) do connection:Disconnect() end

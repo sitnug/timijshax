@@ -20,3 +20,9 @@
 !ASSETS/
 !ASSETS/activated.mp3
 !DEPENDENCIES/SpawnMarkers.lua
+
+!DEPENDENCIES/SpawnMemory.lua
+!explorer.lua
+
+!TESTS/
+!TESTS/spawn_memory.luau

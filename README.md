@@ -27,6 +27,22 @@ The loader announces “timijshax activated” using a bundled robotic voice. Pl
 
 In Rogue Lineage, **Visuals → Trinket Spawn Locations** can highlight known spawn locations even after pickup, independently of Trinket ESP. Observed positions are cached per place when file access is available. These positions are observations, not a complete verified spawn map. The optional **Spawn folder path** highlights all parts in a verified, client-visible spawn container, including empty ones. **Copy spawn candidates** copies possible paths for inspection; candidate names alone do not prove they are trinket spawns. Server-only or undiscovered positions cannot be shown without a map or client-visible spawn parts.
 
+### Learning across servers
+
+Spawn memory now records each location's observation count, first/last-seen timestamps, and server visits. Locations within half a stud merge to tolerate small coordinate differences. Repeated callbacks for the same live object do not increase counts; re-executing can count a still-present trinket as another observation, so these are not spawn-rate estimates. Memory loads automatically per PlaceId, saves every 15 seconds, on teleport, and on unload, and keeps a previous-save backup. Old coordinate caches migrate automatically. Use **Save memory now** before abruptly closing your executor.
+
+Files live in your executor's local workspace as `timijshax-spawns-<PlaceId>.json` and `.json.bak`. Learning works with markers hidden. It requires the same executor storage to carry across runs; it does not synchronize across devices or users. Memory is limited to 3,000 locations per place and does not claim to discover unobserved or server-only spawn points.
+
+### Read-only Explorer
+
+Open **Visuals → Trinket Spawn Locations → Open read-only Explorer**, or execute:
+
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main/explorer.lua", true))()
+```
+
+Search for `spawn`, `trinket`, or `loot` and press Enter. Select a row to inspect it, use `>` to browse children, and **Copy selected path** to share a path for inspection. Names are only clues; verify that the parts really are trinket spawn points before using a folder. The Explorer only reads client-visible objects.
+
 ## Games Supported
 
 | Game | Script | Lines |

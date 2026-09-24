@@ -8048,7 +8048,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             local spawn_group = Tabs.Visuals:AddLeftGroupbox("Trinket Spawn Locations")
             local spawn_ok, spawn_error = pcall(function()
                 local setup = loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/SpawnMarkers.lua", true))()
-                setup(library, utility, cheat_client.config, spawn_group)
+                setup(library, utility, cheat_client.config, spawn_group, DEFAULT_RAW)
             end)
             if not spawn_ok then
                 spawn_group:AddLabel("Spawn markers unavailable. Re-execute to retry.", true)
