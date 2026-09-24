@@ -43,6 +43,10 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main
 
 Search for `spawn`, `trinket`, or `loot` and press Enter. Select a row to inspect it, use `>` to browse children, and **Copy selected path** to share a path for inspection. Names are only clues; verify that the parts really are trinket spawn points before using a folder. The Explorer only reads client-visible objects.
 
+### UI recovery
+
+If the redesigned UI fails in your executor, set `getgenv().timijshax_classic_ui = true` before running the loader to use the previous layout. This keeps the privacy fixes, ingredient filters, and spawn memory. Set it to `false` to return to the Command Console. The loader reports download/compilation/startup failures to the local console and refreshes stale official-release pins.
+
 ## Games Supported
 
 | Game | Script | Lines |

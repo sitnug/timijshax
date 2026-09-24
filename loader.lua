@@ -1,6 +1,14 @@
-local DEFAULT_RAW = getgenv().hydroxide_raw or "https://raw.githubusercontent.com/sitnug/timijshax/34b70d7326577cde4d7233836d7027b7fbbe18a3/"
--- Keep modules, dependencies and assets on one verified release snapshot.
-getgenv().hydroxide_raw = DEFAULT_RAW
+if not game:IsLoaded() then game.Loaded:Wait() end
+local env = getgenv()
+local RELEASE_RAW = "https://raw.githubusercontent.com/sitnug/timijshax/8a36f5e8369d70d00af07d65fc455a8bc0910971/"
+-- Refresh old official release pins; preserve an explicitly configured custom source.
+local custom = env.timijshax_source or env.hydroxide_raw
+if type(custom) ~= "string" or custom:find("https://raw.githubusercontent.com/sitnug/timijshax/", 1, true) == 1 then
+    custom = nil
+end
+local DEFAULT_RAW = custom or RELEASE_RAW
+if DEFAULT_RAW:sub(-1) ~= "/" then DEFAULT_RAW = DEFAULT_RAW .. "/" end
+env.hydroxide_raw = DEFAULT_RAW
 
 -- Play asynchronously so audio download/support never delays the game module.
 task.spawn(function()
@@ -30,19 +38,21 @@ task.spawn(function()
     end
 end)
 
-local gameId = game.GameId
-if gameId == 1087859240 then
-    pcall(function()
-        loadstring(game:HttpGet(
-            DEFAULT_RAW .. "ROGUE/rogue_ui.lua?nonce="..tostring(math.random()),
-            true
-        ))()
-    end)
-elseif gameId == 7359098240 then
-    pcall(function()
-        loadstring(game:HttpGet(
-            DEFAULT_RAW .. "ROGUE_BATTLEGROUNDS/rlb.lua?nonce="..tostring(math.random()),
-            true
-        ))()
-    end)
+local modules = {
+    [1087859240] = "ROGUE/rogue_ui.lua",
+    [7359098240] = "ROGUE_BATTLEGROUNDS/rlb.lua",
+}
+local path = modules[game.GameId]
+if not path then
+    error("[timijshax] Unsupported game. Join Rogue Lineage or Rogue Lineage Battlegrounds first. GameId=" .. tostring(game.GameId), 0)
 end
+print("[timijshax] Downloading " .. path .. (env.timijshax_classic_ui and " (classic UI recovery)" or " (command UI)"))
+local downloaded, source = pcall(function()
+    return game:HttpGet(DEFAULT_RAW .. path .. "?nonce=" .. tostring(math.random()), true)
+end)
+if not downloaded then error("[timijshax] Download failed: " .. tostring(source), 0) end
+local run, compileError = loadstring(source, "@timijshax/" .. path)
+if not run then error("[timijshax] Compile failed: " .. tostring(compileError), 0) end
+print("[timijshax] Starting module. Any startup error will appear below.")
+local started, startupError = xpcall(run, function(err) return debug.traceback(tostring(err), 2) end)
+if not started then error("[timijshax] Startup failed: " .. tostring(startupError), 0) end
