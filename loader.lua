@@ -32,7 +32,7 @@ task.spawn(function()
         sound = Instance.new("Sound")
         sound.Name = "TimijshaxActivation"
         sound.SoundId = asset(path)
-        sound.Volume = 0.7
+        sound.Volume = 3
         sound.Parent = soundService
         sound.Ended:Once(function() sound:Destroy() end)
         game:GetService("Debris"):AddItem(sound, 15)
