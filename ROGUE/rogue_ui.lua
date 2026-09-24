@@ -355,8 +355,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
         },
         connections = {},
         hidden_connections = {},
-        blatant_features = {"flight", "better_flight", "no_fall", "no_killbrick", "auto_bag", "NoStun", "PerfloraTeleport", "parry_ignore_visibility", "forcefield", "anti_globus", "fling", "loop_orderly", "start_path", "test_path", "enable_aa_bypass"},
-        blatant_toggles = {},
         theme = {
             inline = Color3.fromRGB(3, 3, 3),
             dark = Color3.fromRGB(24, 24, 24),
@@ -632,7 +630,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             notifications = true,
             notification_volume = 5,
             ignore_friendly = false,
-            blatant_mode = false,
             status_effects = false,
             keybinds_ui = false,
             keybind_frame_position = nil,
@@ -8675,8 +8672,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                     Text = "Better Flight Toggle",
                     Mode = "Toggle",
                     Callback = function(Value)
-                        local blatant_mode_enabled = Toggles.blatant_mode and Toggles.blatant_mode.Value
-                        if blatant_mode_enabled and Toggles.better_flight then
+                        if Toggles.better_flight then
                             Toggles.better_flight:SetValue(not Toggles.better_flight.Value)
                         end
                     end
@@ -8700,7 +8696,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 end
             })
 
-            local last_speed_notif = 0
             group_movement:AddSlider("speed_boost_value", {
                 Text = "Speed",
                 Default = cheat_client.config.speed_boost_value or 16,
@@ -8709,16 +8704,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 Rounding = 1,
                 Compact = false,
                 Callback = function(value)
-                    local blatant_mode_enabled = Toggles.blatant_mode and Toggles.blatant_mode.Value
-                    if not blatant_mode_enabled and value > 20 then
-                        Options.speed_boost_value:SetValue(20)
-                        local now = tick()
-                        if now - last_speed_notif > 2 then
-                            library:Notify("Speed limited to 20 (blatant mode disabled)")
-                            last_speed_notif = now
-                        end
-                        return
-                    end
                     cheat_client.config.speed_boost_value = value
                 end
             })
@@ -13696,18 +13681,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                     return conn
                 end
 
-                if cheat_client and cheat_client.config and not cheat_client.config.blatant_mode and serverhop_count < 1 then
-                    library:Notify("Blatant Mode must be enabled to run paths!")
-                    if mem:HasItem("botstarted") and mem:GetItem("botstarted") == "true" then
-                        if utility and utility.plain_webhook then
-                            utility:plain_webhook("failed to start: blatant mode not enabled - Kicking (dm the bot if this is an error)")
-                        end
-                        task.wait(1)
-                        plr:Kick("Bot failed to start: Blatant Mode not enabled")
-                    end
-                    return
-                end
-
                 if #trinket_bot.path_points == 0 then
                     library:Notify("No points in path!")
                     if mem:HasItem("botstarted") and mem:GetItem("botstarted") == "true" then
@@ -17870,7 +17843,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
             group_trinket_config:AddButton("start_path", {
                 Text = "Start Path",
-                Tooltip = "Requires Blatant Mode to be enabled",
                 Func = function()
                     task.spawn(ExecutePath, false)
                 end
@@ -17878,7 +17850,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
             group_trinket_config:AddButton("test_path", {
                 Text = "Test Path",
-                Tooltip = "Requires Blatant Mode to be enabled",
                 Func = function()
                     task.spawn(ExecutePath, true)
                 end
@@ -19628,52 +19599,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 end
             })
 
-            group_ui:AddToggle("blatant_mode", {
-                Text = "Blatant Mode",
-                Default = cheat_client.config.blatant_mode,
-                Callback = function(state)
-                    cheat_client.config.blatant_mode = state
-		            mem:SetItem("blatant", tostring(state))
-
-                    local function updateBlatantFeature(featureName)
-                        local toggle = Toggles[featureName]
-                        if not toggle then return end
-
-                        if state then
-                            toggle:SetDisabled(false)
-
-                            if toggle.Value ~= nil then
-                                toggle:SetValue(toggle.Value)
-                            end
-
-                            if toggle.TextLabel then
-                                toggle.TextLabel.TextColor3 = Library.Scheme.FontColor
-                                Library.Registry[toggle.TextLabel].TextColor3 = "FontColor"
-                            end
-                        else
-                            if toggle.Value then
-                                toggle:SetValue(false)
-                            end
-
-                            toggle:SetDisabled(true)
-
-                            if toggle.TextLabel then
-                                toggle.TextLabel.TextColor3 = Library.Scheme.Red
-                                Library.Registry[toggle.TextLabel].TextColor3 = "Red"
-                            end
-                        end
-                    end
-
-                    for _, featureName in pairs(shared.blatant_features) do
-                        updateBlatantFeature(featureName)
-                    end
-                end
-            })
-
-            if Toggles.blatant_mode then
-                Toggles.blatant_mode:SetValue(cheat_client.config.blatant_mode)
-            end
-
             group_ui:AddDivider()
 
             group_ui:AddLabel("Safety & Security")
@@ -20654,11 +20579,6 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 shared.SaveManager.OnConfigLoaded = function(configName)
                     if cheat_client.config.persistent_configs and mem and configName then
                         mem:SetItem("loaded_config", configName)
-                    end
-
-                    if Toggles.blatant_mode then
-						mem:SetItem("blatant", "true")
-                        Toggles.blatant_mode:SetValue(cheat_client.config.blatant_mode)
                     end
 
                     if Toggles.streamer_mode and cheat_client.config.streamer_mode then
@@ -25703,11 +25623,6 @@ end
                 if attach_connection then return end
 
                 attach_connection = utility:Connection(rs.Stepped, function()
-                    if not (Toggles and Toggles.blatant_mode and Toggles.blatant_mode.Value) then
-                        attach_victim = nil
-                        return
-                    end
-
                     if not attach_victim then
                         attach_victim = get_nearby_player()
                         if not attach_victim then return end
@@ -25779,11 +25694,6 @@ end
                 if chat or not Options.AttachToBackKeybind then return end
                 if Options.AttachToBackKeybind.Value == "None" then return end
                 if input.KeyCode == Enum.KeyCode[Options.AttachToBackKeybind.Value] then
-                    if not (Toggles and Toggles.blatant_mode and Toggles.blatant_mode.Value) then
-                        library:Notify("Attach to Back requires Blatant Mode enabled!", 3)
-                        return
-                    end
-
                     if attach_victim ~= nil then
                         stop_attach()
                     else

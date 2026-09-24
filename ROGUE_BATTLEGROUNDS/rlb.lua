@@ -255,8 +255,6 @@ if game.PlaceId == 100010170789226 then
         },
         connections = {},
         hidden_connections = {},
-        blatant_features = {"flight", "better_flight", "no_fall", "no_killbrick", "auto_bag", "NoStun", "PerfloraTeleport", "parry_ignore_visibility", "forcefield", "anti_globus", "fling", "loop_orderly", "start_path", "test_path", "enable_aa_bypass"},
-        blatant_toggles = {},
         -- pointers table removed - now using Library.Options and Library.Toggles
         theme = {
             inline = Color3.fromRGB(3, 3, 3),
@@ -490,7 +488,6 @@ if game.PlaceId == 100010170789226 then
             notifications = true,
             notification_volume = 5,
             ignore_friendly = false,
-            blatant_mode = false,
             status_effects = false,
             keybinds_ui = false,
             keybind_frame_position = nil,
@@ -5385,8 +5382,7 @@ if game.PlaceId == 100010170789226 then
                     Text = "Better Flight Toggle",
                     Mode = "Toggle",
                     Callback = function(Value)
-                        local blatant_mode_enabled = Toggles.blatant_mode and Toggles.blatant_mode.Value
-                        if blatant_mode_enabled and Toggles.better_flight then
+                        if Toggles.better_flight then
                             Toggles.better_flight:SetValue(not Toggles.better_flight.Value)
                         end
                     end
@@ -8777,53 +8773,6 @@ if game.PlaceId == 100010170789226 then
                 end
             })
 
-            group_ui:AddToggle("blatant_mode", {
-                Text = "Blatant Mode",
-                Default = cheat_client.config.blatant_mode,
-                Callback = function(state)
-                    cheat_client.config.blatant_mode = state
-
-                    local function updateBlatantFeature(featureName)
-                        local toggle = Toggles[featureName]
-                        if not toggle then return end
-
-                        if state then
-                            toggle:SetDisabled(false)
-
-                            -- Re-apply stored value to update visual state after enabling
-                            if toggle.Value ~= nil then
-                                toggle:SetValue(toggle.Value)
-                            end
-
-                            if toggle.TextLabel then
-                                toggle.TextLabel.TextColor3 = Library.Scheme.FontColor
-                                Library.Registry[toggle.TextLabel].TextColor3 = "FontColor"
-                            end
-                        else
-                            if toggle.Value then
-                                toggle:SetValue(false)
-                            end
-
-                            toggle:SetDisabled(true)
-
-                            if toggle.TextLabel then
-                                toggle.TextLabel.TextColor3 = Library.Scheme.Red
-                                Library.Registry[toggle.TextLabel].TextColor3 = "Red"
-                            end
-                        end
-                    end
-
-                    for _, featureName in pairs(shared.blatant_features) do
-                        updateBlatantFeature(featureName)
-                    end
-                end
-            })
-
-            -- Trigger callback immediately to apply initial state
-            if Toggles.blatant_mode then
-                Toggles.blatant_mode:SetValue(cheat_client.config.blatant_mode)
-            end
-
             group_ui:AddDivider()
 
             -- Safety & Security
@@ -9615,10 +9564,6 @@ if game.PlaceId == 100010170789226 then
                     -- Persist loaded config across serverhops if enabled
                     if cheat_client.config.persistent_configs and mem and configName then
                         mem:SetItem("loaded_config", configName)
-                    end
-
-                    if Toggles.blatant_mode then
-                        Toggles.blatant_mode:SetValue(cheat_client.config.blatant_mode)
                     end
 
                     if Toggles.streamer_mode and cheat_client.config.streamer_mode then
@@ -12729,11 +12674,6 @@ if game.PlaceId == 100010170789226 then
                 if attach_connection then return end
 
                 attach_connection = utility:Connection(rs.Stepped, function()
-                    if not (Toggles and Toggles.blatant_mode and Toggles.blatant_mode.Value) then
-                        attach_victim = nil
-                        return
-                    end
-
                     if not attach_victim then
                         attach_victim = get_nearby_player()
                         if not attach_victim then return end
@@ -12805,11 +12745,6 @@ if game.PlaceId == 100010170789226 then
                 if chat or not Options.AttachToBackKeybind then return end
                 if Options.AttachToBackKeybind.Value == "None" then return end
                 if input.KeyCode == Enum.KeyCode[Options.AttachToBackKeybind.Value] then
-                    if not (Toggles and Toggles.blatant_mode and Toggles.blatant_mode.Value) then
-                        library:Notify("Attach to Back requires Blatant Mode enabled!", 3)
-                        return
-                    end
-
                     if attach_victim ~= nil then
                         stop_attach()
                     else

@@ -42,7 +42,7 @@ local SaveManager = {} do
     SaveManager.Folder = "ObsidianLibSettings"
     SaveManager.SubFolder = ""
     SaveManager.Ignore = {}
-    SaveManager.LoadFirst = { blatant_mode = true }
+    SaveManager.LoadFirst = {}
     SaveManager.Library = nil
     SaveManager.CurrentConfig = nil
     SaveManager.Parser = {
@@ -258,7 +258,7 @@ local SaveManager = {} do
         local success, decoded = pcall(HttpService.JSONDecode, HttpService, readfile(file))
         if not success then return false, "decode error" end
 
-        -- Load priority items first (e.g. blatant_mode must enable before gated toggles load)
+        -- Load any explicitly prioritized items first.
         for _, option in pairs(decoded.objects) do
             if not option.type then continue end
             if not self.Parser[option.type] then continue end
