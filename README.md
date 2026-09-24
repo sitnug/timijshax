@@ -1,57 +1,19 @@
-# Hydroxide
+# timijshax
 
-![](https://img.shields.io/github/downloads/heisenburgah/HYDROXIDE/total?style=flat-square)
-![](https://img.shields.io/github/last-commit/heisenburgah/HYDROXIDE?style=flat-square)
-![](https://img.shields.io/badge/lines%20of%20code-~41%2C000-blue?style=flat-square)
-![](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue?style=flat-square)
-![](https://img.shields.io/discord/819956523479334933?style=flat-square&cacheSeconds=0)
-![](https://hits.sh/github.com/heisenburgah/HYDROXIDE.svg?style=flat-square&label=views)
+A renamed fork of [Hydroxide](https://git.fable.bz/zyu/hydroxide), maintained in [sitnug/timijshax](https://github.com/sitnug/timijshax).
+Original Hydroxide authors retain credit for their work. This fork remains licensed under AGPL-3.0-or-later; see [LICENSE](LICENSE).
 
-A comprehensive Roblox utility suite for Rogue Lineage and Rogue Lineage Battlegrounds. ~41,000 lines of Lua across two game modules.
-
-**Website:** [hydroxide.solutions](https://hydroxide.solutions) | **Discord:** [discord.gg/fnpNyCsG4u](https://discord.gg/fnpNyCsG4u) | **Media:** [youtube channel](https://www.youtube.com/@walmartfan96/videos)
-
-**This project is open source and maintained on a casual basis. Updates may come from time to time. Issues and pull requests are welcome.**
-
-used to be https://github.com/heisenburgah/HYDROXIDE but my account got suspended Gg and Thank you GitHub!!!
-
-**Fair warning:** The codebase dates back to 2019 and is pretty sloppy. Single files with tens of thousands of lines, no modular structure, and inconsistent patterns throughout. A full rewrite was planned for 2025 but never happened. Hydroxide originally started as a passion project to test out a custom whitelist system — keys were sold for 1k silver at launch. The whitelist system may get a full public release in the future, so keep an eye on the [community server](https://discord.gg/fnpNyCsG4u). The code itself was never written to be maintainable or readable by anyone else. Good luck.
-
----
+Changes made on 2026-09-24: renamed the project and in-game window titles, moved module and dependency loading to this GitHub repository, corrected Battlegrounds dependency paths, and updated its server-hop loader. Existing configuration folders and internal identifiers remain compatible with Hydroxide. Upstream analytics, Stella collection, and external assets remain in use as described below.
 
 ## Usage
 
-```lua
-pcall(function()
-    getgenv().hydroxide_repo   = "zyu/hydroxide"
-    getgenv().hydroxide_branch = "main"
-
-    local url = "https://git.fable.bz/"
-        .. getgenv().hydroxide_repo
-        .. "/raw/branch/"
-        .. getgenv().hydroxide_branch
-        .. "/ROGUE/rogue_ui.lua"
-        .. "?nonce=" .. tostring(math.random())
-
-    loadstring(game:HttpGet(url, true))()
-end)
-```
-
-### Stella Data Collection
+Run this in your Roblox executor while in a supported game:
 
 ```lua
-getgenv().stella_token = "REMOVED_UPSTREAM_TOKEN"
-getgenv().stella_debug = false
-
-pcall(function()
-    loadstring(game:HttpGet(
-        "https://stella.heroinhound.cc/stella.lua",
-        true
-    ))()
-end)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main/loader.lua?nonce=" .. tostring(math.random()), true))()
 ```
 
----
+The loader selects Rogue Lineage or Rogue Lineage Battlegrounds automatically.
 
 ## Games Supported
 
@@ -134,7 +96,7 @@ PvP-focused module inheriting Rogue Lineage's combat systems, optimized for aren
 ## Project Structure
 
 ```
-Hydroxide/
+timijshax/
   ROGUE/
     rogue_ui.lua              -- Main Rogue Lineage script (~27,000 lines)
   ROGUE_BATTLEGROUNDS/

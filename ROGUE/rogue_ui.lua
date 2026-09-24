@@ -2,7 +2,7 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local DEFAULT_RAW = getgenv().hydroxide_raw or "https://git.fable.bz/zyu/hydroxide/raw/branch/main/"
+local DEFAULT_RAW = getgenv().hydroxide_raw or "https://raw.githubusercontent.com/sitnug/timijshax/main/"
 local loader_script = string.format([[
 if not game:IsLoaded() then game.Loaded:Wait() end
 task.wait(1)
@@ -101,7 +101,7 @@ local Kick = clonefunction and clonefunction(Services.Players.LocalPlayer.Kick) 
 for i = 1, #Required do
 	local v = Required[i]
 	if not getgenv()[v] then
-        Kick(Services.Players.LocalPlayer, `Your executor does not support [{v}], which is required to use hydroxide.sol @ Rogue Lineage.`)
+        Kick(Services.Players.LocalPlayer, `Your executor does not support [{v}], which is required to use timijshax @ Rogue Lineage.`)
 	end
 end
 
@@ -7418,7 +7418,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
         local Toggles = library.Toggles
 
         local window = library:CreateWindow({
-            Title = HXD_UserNote and string.format("Hydroxide | %s", HXD_UserNote:sub(1,1):upper() .. HXD_UserNote:sub(2)) or "Hydroxide",
+            Title = HXD_UserNote and string.format("timijshax | %s", HXD_UserNote:sub(1,1):upper() .. HXD_UserNote:sub(2)) or "timijshax",
             NotifySide = "Left",
             Footer = "",
             Center = true,
@@ -19899,9 +19899,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                     local success, result = pcall(function()
                         local content
                         if cheat_client.config.webhook_show_username ~= false then
-                            content = string.format("||[**%s**]|| Test message from hydroxide.solutions", plr.Name)
+                            content = string.format("||[**%s**]|| Test message from timijshax", plr.Name)
                         else
-                            content = "Test message from hydroxide.solutions"
+                            content = "Test message from timijshax"
                         end
 
                         print("[WEBHOOK DEBUG] Calling webhook with content:", content)
@@ -27276,6 +27276,6 @@ end
         if key then
             getgenv()[key] = nil
         end
-        warn("[hydroxide.sol] Script error:", err)
+        warn("[timijshax] Script error:", err)
     end
 end

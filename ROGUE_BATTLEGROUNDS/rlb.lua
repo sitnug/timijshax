@@ -44,7 +44,7 @@ local Kick = clonefunction and clonefunction(game:GetService("Players").LocalPla
 for i = 1, #Required do
 	local v = Required[i]
 	if not getgenv()[v] then
-        Kick(game:GetService("Players").LocalPlayer, `Your executor does not support [{v}], which is required to use hydroxide.sol @ Rogue Lineage Battlegrounds.`)
+        Kick(game:GetService("Players").LocalPlayer, `Your executor does not support [{v}], which is required to use timijshax @ Rogue Lineage Battlegrounds.`)
 	end
 end
 
@@ -2394,7 +2394,7 @@ if game.PlaceId == 100010170789226 then
         end
     end
     
-    local repo = "https://git.fable.bz/zyu/hydroxide/raw/branch/main/"
+    local repo = (getgenv().hydroxide_raw or "https://raw.githubusercontent.com/sitnug/timijshax/main/") .. "DEPENDENCIES/"
     --[[
     local success, library_func = pcall(function()
         return loadstring(readfile("Library.txt"))()
@@ -4645,7 +4645,7 @@ if game.PlaceId == 100010170789226 then
         local Toggles = library.Toggles
 
         local window = library:CreateWindow({
-            Title = HXD_UserNote and string.format("Hydroxide | %s", HXD_UserNote:sub(1,1):upper() .. HXD_UserNote:sub(2)) or "Hydroxide",
+            Title = HXD_UserNote and string.format("timijshax | %s", HXD_UserNote:sub(1,1):upper() .. HXD_UserNote:sub(2)) or "timijshax",
             NotifySide = "Left",
             Footer = "",
             Center = true,
@@ -14218,10 +14218,10 @@ if game.PlaceId == 100010170789226 then
                     if queue_func then
                         local success, err = pcall(function()
                             local loader_script
-                            if readfile and isfile and isfile("bazaar_loader.txt") then
-                                loader_script = [[local s,e=pcall(loadstring(readfile("bazaar_loader.txt")))if not s then print("[QUEUE ERROR]",e)end]]
+                            if readfile and isfile and isfile("timijshax_loader.txt") then
+                                loader_script = [[local s,e=pcall(loadstring(readfile("timijshax_loader.txt")))if not s then print("[QUEUE ERROR]",e)end]]
                             else
-                                loader_script = [[local s,e=pcall(loadstring(game:HttpGet("https://bazaar.hydroxide.solutions/v2/loader.lua")))if not s then print("[QUEUE ERROR]",e)end]]
+                                loader_script = [[local s,e=pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main/loader.lua")))if not s then print("[QUEUE ERROR]",e)end]]
                             end
                             queue_func(loader_script)
                         end)
@@ -14238,6 +14238,6 @@ if game.PlaceId == 100010170789226 then
         if key then
             getgenv()[key] = nil
         end
-        warn("[hydroxide.sol] Script error:", err)
+        warn("[timijshax] Script error:", err)
     end
 end
