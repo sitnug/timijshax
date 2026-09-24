@@ -1,4 +1,6 @@
-local DEFAULT_RAW = getgenv().hydroxide_raw or "https://raw.githubusercontent.com/sitnug/timijshax/main/"
+local DEFAULT_RAW = getgenv().hydroxide_raw or "https://raw.githubusercontent.com/sitnug/timijshax/34b70d7326577cde4d7233836d7027b7fbbe18a3/"
+-- Keep modules, dependencies and assets on one verified release snapshot.
+getgenv().hydroxide_raw = DEFAULT_RAW
 
 -- Play asynchronously so audio download/support never delays the game module.
 task.spawn(function()
