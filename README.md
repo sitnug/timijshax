@@ -17,15 +17,15 @@ The loader selects Rogue Lineage or Rogue Lineage Battlegrounds automatically.
 
 ## timijshax interface
 
-The custom terminal styling uses charcoal panels, green accents, monospace type, and a compact command header in both game modules. Choose **timijshax Terminal** in the Config theme selector if a previously saved theme overrides it.
+The Command Console redesign uses a horizontal module dock, full-width workspace, original bundled icons, graphite panels, lime accents, and monospace typography. Narrow windows stack both settings columns into one scrollable list. Search, window resizing, saved options, and keybinds are retained. Choose **timijshax Command** in **Profiles** if a previously saved theme overrides the palette.
 
-In Rogue Lineage, open **Visuals → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
+In Rogue Lineage, open **Intel → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
 
 ## Startup audio and trinket spawn locations
 
 The loader announces “timijshax activated” using a bundled robotic voice. Playback requires executor support for local files and `getcustomasset` or `getsynasset`; audio failure does not block loading.
 
-In Rogue Lineage, **Visuals → Trinket Spawn Locations** can highlight known spawn locations even after pickup, independently of Trinket ESP. Observed positions are cached per place when file access is available. These positions are observations, not a complete verified spawn map. The optional **Spawn folder path** highlights all parts in a verified, client-visible spawn container, including empty ones. **Copy spawn candidates** copies possible paths for inspection; candidate names alone do not prove they are trinket spawns. Server-only or undiscovered positions cannot be shown without a map or client-visible spawn parts.
+In Rogue Lineage, **Intel → Trinket Spawn Locations** can highlight known spawn locations even after pickup, independently of Trinket ESP. Observed positions are cached per place when file access is available. These positions are observations, not a complete verified spawn map. The optional **Spawn folder path** highlights all parts in a verified, client-visible spawn container, including empty ones. **Copy spawn candidates** copies possible paths for inspection; candidate names alone do not prove they are trinket spawns. Server-only or undiscovered positions cannot be shown without a map or client-visible spawn parts.
 
 ### Learning across servers
 
@@ -35,7 +35,7 @@ Files live in your executor's local workspace as `timijshax-spawns-<PlaceId>.jso
 
 ### Read-only Explorer
 
-Open **Visuals → Trinket Spawn Locations → Open read-only Explorer**, or execute:
+Open **Intel → Trinket Spawn Locations → Open read-only Explorer**, or execute:
 
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main/explorer.lua", true))()

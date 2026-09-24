@@ -45,13 +45,13 @@ do
         ["Default"] = {
             1,
             httpService:JSONDecode(
-                [[{"MainColor":"101915","FontFace":"Code","AccentColor":"53ff9a","OutlineColor":"284032","BackgroundColor":"080e0c","FontColor":"e1f5e9"}]]
+                [[{"MainColor":"121b25","FontFace":"Code","AccentColor":"c4ff70","OutlineColor":"253345","BackgroundColor":"090d13","FontColor":"e0ebf5"}]]
             ),
         },
-        ["timijshax Terminal"] = {
+        ["timijshax Command"] = {
             0,
             httpService:JSONDecode(
-                [[{"MainColor":"101915","FontFace":"Code","AccentColor":"53ff9a","OutlineColor":"284032","BackgroundColor":"080e0c","FontColor":"e1f5e9"}]]
+                [[{"MainColor":"121b25","FontFace":"Code","AccentColor":"c4ff70","OutlineColor":"253345","BackgroundColor":"090d13","FontColor":"e0ebf5"}]]
             ),
         },
         ["BBot"] = {

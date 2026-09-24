@@ -4510,10 +4510,10 @@ if game.PlaceId == 100010170789226 then
         local Toggles = library.Toggles
 
         local window = library:CreateWindow({
-            Title = ">_ timijshax",
+            Title = "timijshax",
             NotifySide = "Left",
-            Footer = "BATTLEGROUNDS  /  TIMIJSHAX TERMINAL",
-            CornerRadius = 2,
+            Footer = "BATTLEGROUNDS  /  COMMAND CONSOLE 02",
+            CornerRadius = 8,
             Center = true,
             AutoShow = false,
             Resizable = true,
@@ -4522,16 +4522,16 @@ if game.PlaceId == 100010170789226 then
 
         -- Tab Structure
         local Tabs = {
-            Combat = window:AddTab("Combat", "sword"),
-            Visuals = window:AddTab("Visuals", "eye"),
-            World = window:AddTab("World", "globe"),
-            Exploits = window:AddTab("Exploits", "zap"),
-            Movement = window:AddTab("Movement", "wind"),
-            Automation = window:AddTab("Automation", "cog"),
-            Misc = window:AddTab("Misc", "settings"),
-            Macros = window:AddTab("Macros", "play"),
-            Interface = window:AddTab("Interface", "monitor"),
-            Config = window:AddTab("Config", "save")
+            Combat = window:AddTab("Combat", "crosshair", "Aim, timing and combat utilities."),
+            Visuals = window:AddTab("Intel", "eye", "Players, resources and learned spawn locations."),
+            World = window:AddTab("World", "globe", "Environment, lighting and world controls."),
+            Exploits = window:AddTab("Advanced", "zap", "Advanced game-specific tools."),
+            Movement = window:AddTab("Traversal", "wind", "Movement, flight and camera controls."),
+            Automation = window:AddTab("Automate", "cog", "Pickup, crafting and repeated actions."),
+            Misc = window:AddTab("Utilities", "shield", "Supporting tools and session controls."),
+            Macros = window:AddTab("Sequences", "play", "Record and replay action sequences."),
+            Interface = window:AddTab("Interface", "monitor", "HUD, keybinds and interface settings."),
+            Config = window:AddTab("Profiles", "save", "Save configurations and personalize the console.")
         }
 
         do -- Combat
