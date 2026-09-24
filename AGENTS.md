@@ -36,3 +36,12 @@ Commits were initially published with a personal local Git identity, and inherit
 ### Shell variable names (2026-09-24)
 
 In zsh, `path` is tied to `PATH`; using it as a loop variable broke command lookup in one shell call. Use task-specific variable names and never repurpose `path`, `PATH`, `HOME`, or `CODEX_HOME`.
+
+### Recovery after repeated failed startup (2026-09-24)
+
+The user reported no startup output after multiple loader/UI changes, despite the first version working. The exact additional executor-side failure has not been reproduced. Runtime was returned to the first renamed version, with the established color fix, bundled icons, and privacy removals retained; newer runtime features are temporarily inactive.
+
+- Stop layering new UI and loader behavior onto an unverified failure. Recover from the user's last confirmed working baseline first.
+- The first executable loader statement must report locally before any `game:IsLoaded()` wait, HTTP fetch, asset registration, or audio task. Never describe missing logs as a confirmed diagnosis without evidence.
+- Keep the recovery loader simple and clear stale source pins. This recovery release intentionally uses the original main-branch loading approach; verify both published commit content and freshness of fetched dependencies.
+- Do not re-enable suspended features or redesigns until the user confirms baseline startup. Recover historical code without resurrecting automatic telemetry or private Git metadata.

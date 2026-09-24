@@ -2401,7 +2401,7 @@ if game.PlaceId == 100010170789226 then
     end)
     --]]
     local success, library_func = pcall(function()
-        return loadstring(game:HttpGet(repo .. (getgenv().timijshax_classic_ui and "LibraryClassic.lua" or "Library.lua") .. "?build=recovery03"))()
+        return loadstring(game:HttpGet(repo .. "Library.lua?nonce=" .. tostring(math.random())))()
     end)
 
     if success then
@@ -2413,7 +2413,7 @@ if game.PlaceId == 100010170789226 then
         getgenv().Labels = library.Labels or {}
 
         local SaveManager = loadstring(game:HttpGet(repo .. "SaveManager.lua"))()
-        local ThemeManager = loadstring(game:HttpGet(repo .. "ThemeManager.lua?build=command02"))()
+        local ThemeManager = loadstring(game:HttpGet(repo .. "ThemeManager.lua?nonce=" .. tostring(math.random())))()
 
         SaveManager:SetLibrary(library)
         ThemeManager:SetLibrary(library)
@@ -2715,7 +2715,7 @@ if game.PlaceId == 100010170789226 then
                 end)
             end
 
-            -- Automatic account/chat/error reporting is disabled in timijshax.
+            -- No automatic third-party account/chat/error reports.
             function utility:setup_error_webhook() end
         end
 
@@ -4510,10 +4510,9 @@ if game.PlaceId == 100010170789226 then
         local Toggles = library.Toggles
 
         local window = library:CreateWindow({
-            Title = "timijshax",
+            Title = HXD_UserNote and string.format("timijshax | %s", HXD_UserNote:sub(1,1):upper() .. HXD_UserNote:sub(2)) or "timijshax",
             NotifySide = "Left",
-            Footer = "BATTLEGROUNDS  /  COMMAND CONSOLE 02",
-            CornerRadius = 8,
+            Footer = "",
             Center = true,
             AutoShow = false,
             Resizable = true,
@@ -4522,16 +4521,16 @@ if game.PlaceId == 100010170789226 then
 
         -- Tab Structure
         local Tabs = {
-            Combat = window:AddTab("Combat", "crosshair", "Aim, timing and combat utilities."),
-            Visuals = window:AddTab("Intel", "eye", "Players, resources and learned spawn locations."),
-            World = window:AddTab("World", "globe", "Environment, lighting and world controls."),
-            Exploits = window:AddTab("Advanced", "zap", "Advanced game-specific tools."),
-            Movement = window:AddTab("Traversal", "wind", "Movement, flight and camera controls."),
-            Automation = window:AddTab("Automate", "cog", "Pickup, crafting and repeated actions."),
-            Misc = window:AddTab("Utilities", "shield", "Supporting tools and session controls."),
-            Macros = window:AddTab("Sequences", "play", "Record and replay action sequences."),
-            Interface = window:AddTab("Interface", "monitor", "HUD, keybinds and interface settings."),
-            Config = window:AddTab("Profiles", "save", "Save configurations and personalize the console.")
+            Combat = window:AddTab("Combat", "sword"),
+            Visuals = window:AddTab("Visuals", "eye"),
+            World = window:AddTab("World", "globe"),
+            Exploits = window:AddTab("Exploits", "zap"),
+            Movement = window:AddTab("Movement", "wind"),
+            Automation = window:AddTab("Automation", "cog"),
+            Misc = window:AddTab("Misc", "settings"),
+            Macros = window:AddTab("Macros", "play"),
+            Interface = window:AddTab("Interface", "monitor"),
+            Config = window:AddTab("Config", "save")
         }
 
         do -- Combat

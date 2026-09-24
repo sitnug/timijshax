@@ -1,5 +1,7 @@
 # timijshax
 
+**Recovery release:** Runtime has been returned to the first renamed version after startup failures. Privacy removals and the verified theme-property fix remain. The redesigned console, ingredient filters, spawn memory, and activation voice are temporarily inactive. Their code/history is retained while startup is verified.
+
 A renamed fork of [Hydroxide](https://git.fable.bz/zyu/hydroxide), maintained in [sitnug/timijshax](https://github.com/sitnug/timijshax).
 Original Hydroxide authors retain credit for their work. This fork remains licensed under AGPL-3.0-or-later; see [LICENSE](LICENSE).
 

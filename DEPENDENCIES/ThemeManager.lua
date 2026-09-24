@@ -45,13 +45,7 @@ do
         ["Default"] = {
             1,
             httpService:JSONDecode(
-                [[{"MainColor":"121b25","FontFace":"Code","AccentColor":"c4ff70","OutlineColor":"253345","BackgroundColor":"090d13","FontColor":"e0ebf5"}]]
-            ),
-        },
-        ["timijshax Command"] = {
-            0,
-            httpService:JSONDecode(
-                [[{"MainColor":"121b25","FontFace":"Code","AccentColor":"c4ff70","OutlineColor":"253345","BackgroundColor":"090d13","FontColor":"e0ebf5"}]]
+                [[{"MainColor":"212121","FontFace":"Code","AccentColor":"00f0ff","OutlineColor":"383838","BackgroundColor":"151515","FontColor":"eeffff"}]]
             ),
         },
         ["BBot"] = {
