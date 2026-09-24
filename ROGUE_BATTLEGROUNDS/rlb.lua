@@ -2401,7 +2401,7 @@ if game.PlaceId == 100010170789226 then
     end)
     --]]
     local success, library_func = pcall(function()
-        return loadstring(game:HttpGet(repo .. "Library.lua?build=command02"))()
+        return loadstring(game:HttpGet(repo .. (getgenv().timijshax_classic_ui and "LibraryClassic.lua" or "Library.lua") .. "?build=recovery03"))()
     end)
 
     if success then
