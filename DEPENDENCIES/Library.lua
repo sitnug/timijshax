@@ -1104,12 +1104,15 @@ local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
     for k, v in pairs(Table) do
         if k == "DPIExclude" or k == "DPIOffset" then
             continue
-        elseif ThemeProperties[k] then
-            ThemeProperties[k] = nil
-        elseif k ~= "Text" and (Library.Scheme[v] or typeof(v) == "function") then
-            -- me when Red in dropdowns break things (temp fix - or perm idk if deivid will do something about this)
+        end
+
+        -- Resolve every override, even when the template registered this property.
+        -- Clearing the previous binding must not skip Color3/font token resolution.
+        ThemeProperties[k] = nil
+        local ThemeValue = typeof(v) == "string" and Library.Scheme[v] or nil
+        if k ~= "Text" and (ThemeValue ~= nil or typeof(v) == "function") then
             ThemeProperties[k] = v
-            Instance[k] = Library.Scheme[v] or v()
+            Instance[k] = ThemeValue or v()
             continue
         end
 

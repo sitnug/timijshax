@@ -43,3 +43,6 @@
 !ASSETS/build_icons.py
 
 !DEPENDENCIES/LibraryClassic.lua
+
+!AGENTS.md
+!TESTS/theme_registry.py
