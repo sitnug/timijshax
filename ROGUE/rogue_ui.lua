@@ -3179,7 +3179,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
     end
     
     local success, library_func = pcall(function()
-        return loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/Library.lua", true))()
+        return loadstring(game:HttpGet(DEFAULT_RAW .. "DEPENDENCIES/Library.lua?build=command02", true))()
     end)
 
     if success then

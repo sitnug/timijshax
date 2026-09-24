@@ -2401,7 +2401,7 @@ if game.PlaceId == 100010170789226 then
     end)
     --]]
     local success, library_func = pcall(function()
-        return loadstring(game:HttpGet(repo .. "Library.lua"))()
+        return loadstring(game:HttpGet(repo .. "Library.lua?build=command02"))()
     end)
 
     if success then
@@ -2413,7 +2413,7 @@ if game.PlaceId == 100010170789226 then
         getgenv().Labels = library.Labels or {}
 
         local SaveManager = loadstring(game:HttpGet(repo .. "SaveManager.lua"))()
-        local ThemeManager = loadstring(game:HttpGet(repo .. "ThemeManager.lua"))()
+        local ThemeManager = loadstring(game:HttpGet(repo .. "ThemeManager.lua?build=command02"))()
 
         SaveManager:SetLibrary(library)
         ThemeManager:SetLibrary(library)
