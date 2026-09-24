@@ -49,3 +49,6 @@
 
 !bootstrap.lua
 !TESTS/search.py
+
+!DEPENDENCIES/PositionDebug.lua
+!TESTS/position_debug.luau

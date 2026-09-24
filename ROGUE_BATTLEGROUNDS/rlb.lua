@@ -5844,6 +5844,20 @@ if game.PlaceId == 100010170789226 then
         do -- Misc
             local group_misc = Tabs.Misc:AddLeftGroupbox("Misc Settings")
 
+            do
+                local debugGroup = Tabs.Misc:AddRightGroupbox("Position Debug")
+                local debugOK, debugError = pcall(function()
+                    local base = getgenv().hydroxide_raw or "https://raw.githubusercontent.com/sitnug/timijshax/main/"
+                    local setup = loadstring(game:HttpGet(base .. "DEPENDENCIES/PositionDebug.lua", true))()
+                    setup(library, debugGroup)
+                end)
+                if not debugOK then
+                    debugGroup:AddLabel("Position debug unavailable. See F9 console.", true)
+                    warn("[timijshax] Position debug:", debugError)
+                end
+            end
+
+
             local function wait_danger()
                 while shared and not shared.is_unloading and cs:HasTag(plr.Character, "Danger") and not (Toggles and Toggles.ignore_danger and Toggles.ignore_danger.Value) do
                     rs.Heartbeat:Wait()

@@ -25,6 +25,10 @@ In Rogue Lineage, open **Intel → Ingredient ESP** to search and select ingredi
 
 Search accepts multiple words across module names, group names, setting labels, and dropdown choices. Empty groups disappear from results. Use the clear button or Escape to reset, and Ctrl+F to focus search. Explicitly hidden controls stay hidden.
 
+## Position debug and waypoint capture
+
+Open **Utilities → Position Debug** in either game. Enable the overlay to see live world X/Y/Z coordinates and PlaceId, including while the menu is hidden. **Copy current position** exports the current location. Give a waypoint a name, press **Capture waypoint** at each stop, then **Copy waypoint list** to share an ordered JSON route for preset creation. **Undo last waypoint** removes the last capture. Captures are session-only (maximum 200); copy them before leaving. Exports contain only PlaceId, coordinates, labels, and a format version. Nothing is uploaded automatically. Clipboard failures fall back to the F9 console, and missing characters show a waiting state during respawn.
+
 ## Startup audio and trinket spawn locations
 
 The loader announces “timijshax activated” using a bundled robotic voice. Playback requires executor support for local files and `getcustomasset` or `getsynasset`; audio failure does not block loading.
