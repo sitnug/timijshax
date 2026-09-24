@@ -22,7 +22,7 @@ task.spawn(function()
             warn("[timijshax] Voice unavailable: executor needs writefile and getcustomasset/getsynasset")
             return
         end
-        local path = "timijshax-activated-v1.mp3"
+        local path = "timijshax-activated-v2.mp3"
         if not isfile or not isfile(path) then
             writefile(path, game:HttpGet(base .. "ASSETS/activated.mp3", true))
         end
@@ -32,7 +32,7 @@ task.spawn(function()
         sound = Instance.new("Sound")
         sound.Name = "TimijshaxActivation"
         sound.SoundId = asset(path)
-        sound.Volume = 3
+        sound.Volume = 5
         sound.Parent = soundService
         sound.Ended:Once(function() sound:Destroy() end)
         game:GetService("Debris"):AddItem(sound, 15)
