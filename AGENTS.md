@@ -54,3 +54,7 @@ The user confirmed recovery revision `c8aec531c20e88e857abf578edaeb9381d135ffe` 
 - Voice playback must remain asynchronous and optional; a missing audio capability must report locally without blocking startup.
 - Ingredient filters, local spawn memory, and the read-only Explorer can be restored independently of the unconfirmed full redesign. Maintain privacy removals.
 - Run the theme-property, ingredient filter, and spawn-memory checks when restoring those paths; distinguish local tests from live user confirmation.
+
+### Redesigned UI explicitly restored (2026-09-24)
+
+After confirming the recovery baseline and restored features, the user asked for the redesigned UI too. Restore only its window/tab configuration and fixed shared library/theme; preserve the working loader, audio, ingredient filtering, spawn memory, and privacy changes. The UI factory must retain the reproduced-and-tested theme override fix. Do not describe the redesigned UI as in-game verified until the user confirms it.
