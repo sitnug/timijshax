@@ -1,6 +1,6 @@
 # timijshax
 
-**Recovery release:** Runtime has been returned to the first renamed version after startup failures. Privacy removals and the verified theme-property fix remain. The redesigned console, ingredient filters, spawn memory, and activation voice are temporarily inactive. Their code/history is retained while startup is verified.
+**Current release:** Uses the user-confirmed original layout. Robotic startup audio, ingredient filters, spawn memory, and the read-only Explorer are restored. Privacy removals and the tested theme-property fix remain. The full Command Console redesign is inactive pending in-game verification.
 
 A renamed fork of [Hydroxide](https://git.fable.bz/zyu/hydroxide), maintained in [sitnug/timijshax](https://github.com/sitnug/timijshax).
 Original Hydroxide authors retain credit for their work. This fork remains licensed under AGPL-3.0-or-later; see [LICENSE](LICENSE).
@@ -19,15 +19,15 @@ The loader selects Rogue Lineage or Rogue Lineage Battlegrounds automatically.
 
 ## timijshax interface
 
-The Command Console redesign uses a horizontal module dock, full-width workspace, original bundled icons, graphite panels, lime accents, and monospace typography. Narrow windows stack both settings columns into one scrollable list. Search, window resizing, saved options, and keybinds are retained. Choose **timijshax Command** in **Profiles** if a previously saved theme overrides the palette.
+The current runtime uses the confirmed original layout with bundled icons and the theme-property fix. Search, window resizing, saved options, and keybinds are retained. The experimental Command Console is not active.
 
-In Rogue Lineage, open **Intel → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
+In Rogue Lineage, open **Visuals → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
 
 ## Startup audio and trinket spawn locations
 
 The loader announces “timijshax activated” using a bundled robotic voice. Playback requires executor support for local files and `getcustomasset` or `getsynasset`; audio failure does not block loading.
 
-In Rogue Lineage, **Intel → Trinket Spawn Locations** can highlight known spawn locations even after pickup, independently of Trinket ESP. Observed positions are cached per place when file access is available. These positions are observations, not a complete verified spawn map. The optional **Spawn folder path** highlights all parts in a verified, client-visible spawn container, including empty ones. **Copy spawn candidates** copies possible paths for inspection; candidate names alone do not prove they are trinket spawns. Server-only or undiscovered positions cannot be shown without a map or client-visible spawn parts.
+In Rogue Lineage, **Visuals → Trinket Spawn Locations** can highlight known spawn locations even after pickup, independently of Trinket ESP. Observed positions are cached per place when file access is available. These positions are observations, not a complete verified spawn map. The optional **Spawn folder path** highlights all parts in a verified, client-visible spawn container, including empty ones. **Copy spawn candidates** copies possible paths for inspection; candidate names alone do not prove they are trinket spawns. Server-only or undiscovered positions cannot be shown without a map or client-visible spawn parts.
 
 ### Learning across servers
 
@@ -37,7 +37,7 @@ Files live in your executor's local workspace as `timijshax-spawns-<PlaceId>.jso
 
 ### Read-only Explorer
 
-Open **Intel → Trinket Spawn Locations → Open read-only Explorer**, or execute:
+Open **Visuals → Trinket Spawn Locations → Open read-only Explorer**, or execute:
 
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main/explorer.lua", true))()
@@ -45,9 +45,9 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main
 
 Search for `spawn`, `trinket`, or `loot` and press Enter. Select a row to inspect it, use `>` to browse children, and **Copy selected path** to share a path for inspection. Names are only clues; verify that the parts really are trinket spawn points before using a folder. The Explorer only reads client-visible objects.
 
-### UI recovery
+### Confirmed working layout
 
-If the redesigned UI fails in your executor, set `getgenv().timijshax_classic_ui = true` before running the loader to use the previous layout. This keeps the privacy fixes, ingredient filters, and spawn memory. Set it to `false` to return to the Command Console. The loader reports download/compilation/startup failures to the local console and refreshes stale official-release pins.
+The main UI uses the original layout confirmed by the user. The older `timijshax_classic_ui` flag is no longer needed. Rejoin before executing an updated release if timijshax is already loaded. A script pinned to an older recovery commit continues loading that older build; use the new release URL to receive restored features.
 
 ## Games Supported
 

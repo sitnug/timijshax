@@ -45,3 +45,12 @@ The user reported no startup output after multiple loader/UI changes, despite th
 - The first executable loader statement must report locally before any `game:IsLoaded()` wait, HTTP fetch, asset registration, or audio task. Never describe missing logs as a confirmed diagnosis without evidence.
 - Keep the recovery loader simple and clear stale source pins. This recovery release intentionally uses the original main-branch loading approach; verify both published commit content and freshness of fetched dependencies.
 - Do not re-enable suspended features or redesigns until the user confirms baseline startup. Recover historical code without resurrecting automatic telemetry or private Git metadata.
+
+### Confirmed recovery baseline and feature restoration (2026-09-24)
+
+The user confirmed recovery revision `c8aec531c20e88e857abf578edaeb9381d135ffe` starts successfully. They then requested the features back and noted earlier execution may have been incorrect. Do not treat the unexplained silent failure as a proven code defect beyond the separately reproduced theme error.
+
+- Restore additions onto this confirmed layout without changing its window construction, navigation, or shared UI factory.
+- Voice playback must remain asynchronous and optional; a missing audio capability must report locally without blocking startup.
+- Ingredient filters, local spawn memory, and the read-only Explorer can be restored independently of the unconfirmed full redesign. Maintain privacy removals.
+- Run the theme-property, ingredient filter, and spawn-memory checks when restoring those paths; distinguish local tests from live user confirmation.
