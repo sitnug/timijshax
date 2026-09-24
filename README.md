@@ -3,7 +3,7 @@
 A renamed fork of [Hydroxide](https://git.fable.bz/zyu/hydroxide), maintained in [sitnug/timijshax](https://github.com/sitnug/timijshax).
 Original Hydroxide authors retain credit for their work. This fork remains licensed under AGPL-3.0-or-later; see [LICENSE](LICENSE).
 
-Changes made on 2026-09-24: renamed the project and in-game window titles, moved module and dependency loading to this GitHub repository, corrected Battlegrounds dependency paths, and updated its server-hop loader. Existing configuration folders and internal identifiers remain compatible with Hydroxide. Upstream analytics, Stella collection, and external assets remain in use as described below.
+Changes made on 2026-09-24: renamed the project and in-game window titles, moved module and dependency loading to this GitHub repository, corrected Battlegrounds dependency paths, and updated its server-hop loader. Existing configuration folders and internal identifiers remain compatible with Hydroxide. Automatic upstream analytics and Stella collection were removed during the privacy audit.
 
 ## Usage
 
@@ -136,21 +136,13 @@ timijshax/
     Chatlogger.lua            -- Chat logging module
 ```
 
-## Stella - Community Data Collection
+## Privacy
 
-Hydroxide includes a lightweight data collection snippet that runs on startup and sends anonymized server/player data to [Stella](https://discord.com/oauth2/authorize?client_id=1464315094472327345), a community-run Discord bot and API for tracking Rogue Lineage player and server data. This powers features like player search, server listings, online player tracking, bounty boards, house lookups, build stats, and more for the community.
+Automatic Stella player/server collection, upstream device/executor analytics, and automatic chat/error reporting have been removed. Optional webhooks only send when a destination is configured; username inclusion requires an explicit opt-in. Do not put account cookies, credentials, or webhook URLs into source files.
 
-**If you fork this project, please keep the Stella data collection intact.** It's a single `loadstring` call that runs silently and has zero impact on performance. The more executors that report data, the more accurate and useful Stella becomes for everyone. The community benefits directly from this.
+Spawn history, saved configs, friends lists, and chat logs are executor-local files. This repository uses an explicit source-file allowlist and excludes runtime data. Nothing in the spawn-memory implementation uploads that data to GitHub. GitHub still receives normal requests for public script/assets, and Roblox services receive requests needed for game features. The optional Roblox Account Manager integration communicates with your local manager; those account-management features and third-party executors are outside this repository audit.
 
-## Analytics
-
-Hydroxide sends a one-time analytics ping on startup to `api.heroinhound.cc`. This data is only sent to the Hydroxide developers (baba zyu & boss) and is used to track executor usage and active user counts. The following is collected:
-
-- **Place ID** — the game's place ID
-- **Executor** — the executor being used (e.g. Solara, Wave)
-- **UUID** — a hashed, non-reversible device identifier (not your Roblox username or user ID)
-
-No personal or identifying information is collected.
+Public source and the repository owner's GitHub username remain visible. A history rewrite cannot recall copies previously downloaded by others or guarantee removal of cached commit pages.
 
 ## Dependencies
 

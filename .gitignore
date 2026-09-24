@@ -11,7 +11,6 @@
 !DEPENDENCIES/ThemeManager.lua
 !DEPENDENCIES/Chatlogger.lua
 !DEPENDENCIES/Library.lua
-!hello_stella.lua
 # loader.lua is the runtime entry point users fetch by raw URL — it MUST ship.
 # It was missing from this allowlist, which would have published a repo whose
 # advertised loader URL 404s.
@@ -26,3 +25,16 @@
 
 !TESTS/
 !TESTS/spawn_memory.luau
+
+# Private runtime data must never be committed, even inside allowlisted directories.
+**/.env
+**/.env.*
+**/*.log
+**/*cookie*
+**/*token*
+**/*credential*
+**/accounts*
+**/configs/**
+**/logs/**
+**/timijshax-spawns-*.json*
+**/friends.json
