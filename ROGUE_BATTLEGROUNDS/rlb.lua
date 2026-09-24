@@ -4645,9 +4645,10 @@ if game.PlaceId == 100010170789226 then
         local Toggles = library.Toggles
 
         local window = library:CreateWindow({
-            Title = HXD_UserNote and string.format("timijshax | %s", HXD_UserNote:sub(1,1):upper() .. HXD_UserNote:sub(2)) or "timijshax",
+            Title = ">_ timijshax",
             NotifySide = "Left",
-            Footer = "",
+            Footer = "BATTLEGROUNDS  /  TIMIJSHAX TERMINAL",
+            CornerRadius = 2,
             Center = true,
             AutoShow = false,
             Resizable = true,

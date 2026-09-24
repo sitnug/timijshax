@@ -15,6 +15,12 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/sitnug/timijshax/main
 
 The loader selects Rogue Lineage or Rogue Lineage Battlegrounds automatically.
 
+## timijshax interface
+
+The custom terminal styling uses charcoal panels, green accents, monospace type, and a compact command header in both game modules. Choose **timijshax Terminal** in the Config theme selector if a previously saved theme overrides it.
+
+In Rogue Lineage, open **Visuals → Ingredient ESP** to search and select ingredient types. The type list supports A–Z or Z–A order, Select all, and Clear. All 26 recognized types plus Unknown are available; clearing the selection hides every ingredient. Selections save with your configuration and apply to newly spawned ingredients. This filter only affects ESP, not automatic pickup.
+
 ## Games Supported
 
 | Game | Script | Lines |

@@ -85,11 +85,11 @@ local Library = {
 
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(15, 15, 15),
-        MainColor = Color3.fromRGB(25, 25, 25),
-        AccentColor = Color3.fromRGB(125, 85, 255),
-        OutlineColor = Color3.fromRGB(40, 40, 40),
-        FontColor = Color3.new(1, 1, 1),
+        BackgroundColor = Color3.fromRGB(8, 14, 12),
+        MainColor = Color3.fromRGB(16, 25, 21),
+        AccentColor = Color3.fromRGB(83, 255, 154),
+        OutlineColor = Color3.fromRGB(40, 64, 50),
+        FontColor = Color3.fromRGB(225, 245, 233),
         Font = Font.fromEnum(Enum.Font.Code),
 
         Red = Color3.fromRGB(255, 50, 50),
@@ -5912,6 +5912,15 @@ function Library:CreateWindow(WindowInfo)
         })
         Library:MakeDraggable(MainFrame, TopBar, false, true)
 
+        -- Terminal accent rail; theme-aware and static to keep controls readable.
+        New("Frame", {
+            BackgroundColor3 = "AccentColor",
+            BorderSizePixel = 0,
+            Position = UDim2.new(0, 12, 0, 0),
+            Size = UDim2.new(1, -24, 0, 2),
+            Parent = TopBar,
+        })
+
         --// Title
         local TitleHolder = New("Frame", {
             BackgroundTransparency = 1,
@@ -5939,17 +5948,13 @@ function Library:CreateWindow(WindowInfo)
         end
 
 
-		local X = Library:GetTextBounds(
-			WindowInfo.Title,
-			Library.Scheme.Font,
-			20,
-			TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
-		)
         New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(0, X, 1, 0),
+            Size = UDim2.new(1, -12, 1, 0),
             Text = WindowInfo.Title,
-            TextSize = 20,
+            TextColor3 = "AccentColor",
+            TextTruncate = Enum.TextTruncate.AtEnd,
+            TextSize = 18,
             Parent = TitleHolder,
         })
 
@@ -6016,7 +6021,7 @@ function Library:CreateWindow(WindowInfo)
 
         SearchBox = New("TextBox", {
             BackgroundColor3 = "MainColor",
-            PlaceholderText = "Search",
+            PlaceholderText = "Search commands...",
             Size = WindowInfo.SearchbarSize,
             TextScaled = true,
             Visible = not (WindowInfo.DisableSearch or false),

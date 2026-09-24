@@ -533,6 +533,8 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
             
             ingredient_esp = false,
             ingredient_range = 500,
+            ingredient_types = nil, -- nil preserves all types for older configs
+            ingredient_type_sort = "A–Z",
     
             no_fog = false,
             no_blindness = false,
@@ -5203,6 +5205,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         local esp = {
                             object = ingredient,
                             name = name or ingredient.Name or "Unknown",
+                            ingredient_type = name or "Unknown",
                             color = ingredient.Color,
                             drawings = {},
                             already_disabled = false,
@@ -5237,7 +5240,9 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                         end
         
                         local function update_ingredient_esp(toggled)
-                            if not toggled then
+                            local selected = cheat_client.config.ingredient_types
+                            local included = selected == nil or selected[esp.ingredient_type] == true
+                            if not toggled or not included then
                                 if not esp.already_disabled then
                                     esp.drawings.main_text.Visible = false
                                     esp.already_disabled = true
@@ -7418,9 +7423,10 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
         local Toggles = library.Toggles
 
         local window = library:CreateWindow({
-            Title = HXD_UserNote and string.format("timijshax | %s", HXD_UserNote:sub(1,1):upper() .. HXD_UserNote:sub(2)) or "timijshax",
+            Title = ">_ timijshax",
             NotifySide = "Left",
-            Footer = "",
+            Footer = "ROGUE LINEAGE  /  TIMIJSHAX TERMINAL",
+            CornerRadius = 2,
             Center = true,
             AutoShow = false,
             Resizable = true,
@@ -8189,6 +8195,7 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 })
 
                 Toggles.IngredientEsp:OnChanged(function()
+                    cheat_client.config.ingredient_esp = Toggles.IngredientEsp.Value
                     if Toggles.IngredientEsp.Value then
                         cheat_client.ingredient_esp_objects = cheat_client.ingredient_esp_objects or {}
                         if ingredient_folder then
@@ -8216,6 +8223,68 @@ if game.PlaceId == 3541987450 or game.PlaceId == 5208655184 or game.PlaceId == 1
                 Options.IngredientEspKeybind:OnChanged(function()
                     cheat_client.config.ingredient_esp_keybind = Options.IngredientEspKeybind.Value
                 end)
+
+                group_ingredient_esp:AddDivider()
+                group_ingredient_esp:AddLabel("Filter by ingredient type")
+
+                local ingredient_types = {"Unknown"}
+                local seen_types = {Unknown = true}
+                for _, name in pairs(cheat_client.ingredient_identifiers) do
+                    if not seen_types[name] then
+                        seen_types[name] = true
+                        table.insert(ingredient_types, name)
+                    end
+                end
+                local function sort_ingredient_types(order)
+                    table.sort(ingredient_types, function(a, b)
+                        if order == "Z–A" then return a > b end
+                        return a < b
+                    end)
+                end
+                sort_ingredient_types(cheat_client.config.ingredient_type_sort)
+                local defaults = {}
+                for _, name in ipairs(ingredient_types) do
+                    if cheat_client.config.ingredient_types == nil or cheat_client.config.ingredient_types[name] then
+                        table.insert(defaults, name)
+                    end
+                end
+                local filter_status = group_ingredient_esp:AddLabel("", true)
+                local function update_ingredient_filter(value)
+                    cheat_client.config.ingredient_types = value
+                    local count = 0
+                    for _, name in ipairs(ingredient_types) do
+                        if value[name] then count = count + 1 end
+                    end
+                    filter_status:SetText(count == 0 and "No types selected — all hidden"
+                        or string.format("%d / %d types selected", count, #ingredient_types))
+                end
+                group_ingredient_esp:AddDropdown("IngredientTypes", {
+                    Text = "Show types",
+                    Values = ingredient_types,
+                    Default = defaults,
+                    Multi = true,
+                    AllowNull = true,
+                    Searchable = true,
+                    Callback = update_ingredient_filter,
+                })
+                update_ingredient_filter(Options.IngredientTypes.Value)
+                group_ingredient_esp:AddDropdown("IngredientTypeSort", {
+                    Text = "Sort type list",
+                    Values = {"A–Z", "Z–A"},
+                    Default = cheat_client.config.ingredient_type_sort,
+                    Callback = function(value)
+                        cheat_client.config.ingredient_type_sort = value
+                        sort_ingredient_types(value)
+                        Options.IngredientTypes:SetValues(ingredient_types)
+                    end,
+                })
+                group_ingredient_esp:AddButton({
+                    Text = "Select all",
+                    Func = function() Options.IngredientTypes:SetValue(ingredient_types) end,
+                }):AddButton({
+                    Text = "Clear",
+                    Func = function() Options.IngredientTypes:SetValue({}) end,
+                })
 
                 group_ingredient_esp:AddSlider("IngredientRange", {
                     Text = "Range",
